@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drive Max USA — Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind.config.js"></script>
+  <link rel="stylesheet" href="css/tokens.css" />
+</head>
+<body class="font-sans text-body bg-base">
+
+  <!-- HERO -->
+  <header class="bg-navy text-white">
+    <div class="container py-11">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="inline-flex items-center h-[34px] px-3.5 rounded-md bg-amber text-ink font-display font-extrabold text-[14px]">DRIVE MAX</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 text-cyan font-mono text-[12px] font-medium">Design System v0.1</span>
+      </div>
+      <h1 class="t-h1 text-white mb-2.5">Drive Max USA — Design System</h1>
+      <p class="t-body text-white/70 max-w-[640px]">Light automotive system. Logo blues used as accents, amber reserved for the primary CTA only. Everything is driven by tokens in <code class="font-mono text-cyan text-[0.85em]">css/tokens.css</code> — change a value there and it updates everywhere.</p>
+    </div>
+  </header>
+
+  <!-- SUBNAV -->
+  <nav class="sticky top-0 z-20 border-b border-border bg-base/90 backdrop-blur">
+    <div class="container flex flex-wrap gap-x-5 gap-y-1.5 py-3 text-[14px]">
+      <a href="#colors" class="text-muted hover:text-blue">Colors</a>
+      <a href="#type" class="text-muted hover:text-blue">Typography</a>
+      <a href="#buttons" class="text-muted hover:text-blue">Buttons</a>
+      <a href="#forms" class="text-muted hover:text-blue">Forms</a>
+      <a href="#cards" class="text-muted hover:text-blue">Badges &amp; Cards</a>
+      <a href="#radius" class="text-muted hover:text-blue">Radius</a>
+      <a href="#shadow" class="text-muted hover:text-blue">Elevation</a>
+      <a href="#spacing" class="text-muted hover:text-blue">Spacing</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- COLORS -->
+    <section id="colors" class="py-13 border-t border-border first:border-0">
+      <div class="mb-7"><h2 class="t-h2">Colors</h2><p class="t-body text-muted mt-1.5 max-w-[640px]">Surfaces, text, brand and status. Amber is reserved exclusively for the primary call-to-action.</p></div>
+
+      <div class="mb-6"><div class="t-eyebrow mb-3">Surfaces</div><div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="sw-surfaces"></div></div>
+      <div class="mb-6"><div class="t-eyebrow mb-3">Text</div><div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="sw-text"></div></div>
+      <div class="mb-6"><div class="t-eyebrow mb-3">Brand (from logo)</div><div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="sw-brand"></div></div>
+      <div><div class="t-eyebrow mb-3">Accent &amp; Status</div><div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="sw-status"></div></div>
+    </section>
+
+    <!-- TYPOGRAPHY -->
+    <section id="type" class="py-13 border-t border-border">
+      <div class="mb-7"><h2 class="t-h2">Typography</h2><p class="t-body text-muted mt-1.5">Three families: <strong>Sora</strong> (display + price), <strong>Inter</strong> (body + UI), <strong>JetBrains Mono</strong> (eyebrow + data).</p></div>
+      <div class="border border-border rounded-md bg-surface overflow-hidden" id="typescale"></div>
+    </section>
+
+    <!-- BUTTONS -->
+    <section id="buttons" class="py-13 border-t border-border">
+      <div class="mb-7"><h2 class="t-h2">Buttons</h2><p class="t-body text-muted mt-1.5">Primary (amber) = the single most important action. Secondary (blue) for supporting actions.</p></div>
+      <div class="flex flex-wrap gap-3 mb-4">
+        <button class="btn btn--primary">Get Pre-Approved</button>
+        <button class="btn btn--secondary">Browse Inventory</button>
+        <button class="btn btn--outline">Value Your Trade</button>
+        <button class="btn btn--ghost">Learn More</button>
+        <button class="btn btn--danger">Remove</button>
+        <button class="btn btn--link">See how it works →</button>
+      </div>
+      <div class="flex flex-wrap gap-3 items-center">
+        <button class="btn btn--primary btn--sm">Small</button>
+        <button class="btn btn--primary">Medium</button>
+        <button class="btn btn--primary btn--lg">Large</button>
+        <button class="btn btn--primary" disabled>Disabled</button>
+      </div>
+    </section>
+
+    <!-- FORMS -->
+    <section id="forms" class="py-13 border-t border-border">
+      <div class="mb-7"><h2 class="t-h2">Form controls</h2><p class="t-body text-muted mt-1.5">Used across financing, sell-your-car and search flows. Tighter radius (8px) on inputs.</p></div>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="field"><label class="t-label" for="vin">VIN number <span class="req">*</span></label><input id="vin" class="ctrl" placeholder="1HGCM82633A004352" /></div>
+        <div class="field"><label class="t-label" for="mk">Make <span class="req">*</span></label><select id="mk" class="ctrl"><option value="" disabled selected>Select make</option><option>Ford</option><option>Chevrolet</option><option>Jeep</option></select></div>
+        <div class="field"><label class="t-label" for="mi">Mileage</label><input id="mi" class="ctrl" type="number" placeholder="45,000" /><span class="hint">Approximate is fine</span></div>
+        <div class="field sm:col-span-2 lg:col-span-3"><label class="t-label" for="nt">Notes</label><textarea id="nt" class="ctrl" placeholder="Anything we should know about the vehicle?"></textarea></div>
+      </div>
+    </section>
+
+    <!-- BADGES & CARDS -->
+    <section id="cards" class="py-13 border-t border-border">
+      <div class="mb-7"><h2 class="t-h2">Badges &amp; Cards</h2><p class="t-body text-muted mt-1.5">Status badges for inventory, surfaces for content.</p></div>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="badge badge--success">Available</span>
+        <span class="badge badge--danger">Sold</span>
+        <span class="badge badge--warning">Pending</span>
+        <span class="badge badge--blue">Certified</span>
+        <span class="badge badge--neutral">Pre-Owned</span>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="card">
+          <div class="card__media"></div>
+          <div class="card__body">
+            <div class="flex justify-between mb-2"><span class="badge badge--success">Available</span><span class="badge badge--blue">Certified</span></div>
+            <h3 class="t-h4">2021 Ford F-150</h3>
+            <div class="t-caption">Lariat · <span class="t-data">38,200 mi</span></div>
+            <div class="flex justify-between items-baseline mt-3.5"><span class="t-price">$389<span class="font-sans text-[14px] font-medium text-muted">/mo</span></span><button class="btn btn--outline btn--sm">Details</button></div>
+          </div>
+        </div>
+        <div class="card" style="background: var(--color-blue-soft); border-color: color-mix(in srgb, var(--color-blue) 20%, transparent);">
+          <div class="card__body">
+            <div class="t-eyebrow">Finance</div>
+            <h3 class="t-h3 text-blue mt-1">Get Financing</h3>
+            <p class="t-body-sm mt-1.5">No SSN or DOB required. Instant decision, no effect on your credit score.</p>
+            <button class="btn btn--primary btn--sm mt-4">Get Pre-Approved</button>
+          </div>
+        </div>
+        <div class="card bg-navy" style="border-color: var(--color-navy);">
+          <div class="card__body">
+            <div class="t-eyebrow text-cyan">Sell / Trade</div>
+            <h3 class="t-h3 text-white mt-1">We want to buy your car</h3>
+            <p class="t-body-sm mt-1.5 text-white/70">No matter the make, model or miles.</p>
+            <button class="btn btn--primary btn--sm mt-4">Start Selling</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RADIUS -->
+    <section id="radius" class="py-13 border-t border-border">
+      <div class="mb-7"><h2 class="t-h2">Radius</h2></div>
+      <div class="flex flex-wrap gap-7" id="radii"></div>
+    </section>
+
+    <!-- ELEVATION -->
+    <section id="shadow" class="py-13 border-t border-border">
+      <div class="mb-7"><h2 class="t-h2">Elevation</h2></div>
+      <div class="flex flex-wrap gap-8" id="shadows"></div>
+    </section>
+
+    <!-- SPACING -->
+    <section id="spacing" class="py-13 border-t border-border">
+      <div class="mb-7"><h2 class="t-h2">Spacing scale</h2><p class="t-body text-muted mt-1.5">4px base unit.</p></div>
+      <div id="spacing-rows"></div>
+    </section>
+  </main>
+
+  <footer class="bg-section border-t border-border py-7 text-center"><div class="container t-caption">Drive Max USA · Design System v0.1</div></footer>
+
+  <script>
+    // Build repetitive bits from data — keeps the markup short.
+    const swatch = (n, hex, v, use) => `
+      <div class="border border-border rounded-md overflow-hidden bg-surface">
+        <div style="height:72px;background:${hex};border-bottom:1px solid var(--color-border)"></div>
+        <div class="p-3"><div class="t-label">${n}</div><div class="t-data text-muted uppercase">${hex}</div>
+        <div class="font-mono text-[11px] text-faint mt-0.5">${v}</div><div class="text-[11px] text-faint mt-1">${use}</div></div>
+      </div>`;
+    const set = (id, arr) => document.getElementById(id).innerHTML = arr.map(a => swatch(...a)).join('');
+    set('sw-surfaces', [['Base','#FAFBFC','--color-base','Page background'],['Surface','#FFFFFF','--color-surface','Cards'],['Section','#F2F4F7','--color-section','Bands'],['Border','#E4E8EF','--color-border','Dividers']]);
+    set('sw-text', [['Ink','#100F13','--color-ink','Headings'],['Body','#2A2E37','--color-body','Body copy'],['Muted','#5B6472','--color-muted','Secondary'],['Faint','#8A93A3','--color-faint','Captions']]);
+    set('sw-brand', [['Navy','#1C1F53','--color-navy','Footer, dark nav'],['Blue','#2A4FA2','--color-blue','Primary, links'],['Cyan','#4CB8E9','--color-cyan','Highlight, focus'],['Blue Soft','#ECF0F9','--color-blue-soft','Tinted bg']]);
+    set('sw-status', [['Amber · CTA','#F5A623','--color-amber','Primary CTA only'],['Success','#2E9E5B','--color-success','Available'],['Danger','#D64545','--color-danger','Sold, errors'],['Warning','#E0920F','--color-warning','Pending']]);
+
+    const type = [
+      ['Display XL','t-display-xl','Sora 800 · 40→72 · −1.4','Find your next car'],
+      ['Display L','t-display-l','Sora 800 · 32→48 · −1','The future of car buying'],
+      ['H1 page','t-h1','Sora 700 · 30→36 · −0.4','Get pre-approved in seconds'],
+      ['H2 section','t-h2','Sora 700 · 24→32 · −0.3','We want to buy your car'],
+      ['H3 sub','t-h3','Sora 600 · 20→22','Certified pre-owned inventory'],
+      ['H4 card title','t-h4','Sora 600 · 17→18','2021 Ford F-150 Lariat'],
+      ['Eyebrow','t-eyebrow','JetBrains Mono 500 · 12 · +2.2','Finance Center'],
+      ['Lead / intro','t-lead','Inter 400 · 18→20','Browse over 500 certified vehicles.'],
+      ['Body','t-body','Inter 400 · 16','No SSN or DOB required — instant decision.'],
+      ['Body small','t-body-sm','Inter 400 · 14','Approximate mileage is fine.'],
+      ['Caption / meta','t-caption','Inter 400 · 13','Accepted: JPG, PNG, PDF'],
+      ['Form label','t-label','Inter 600 · 13','VIN number'],
+      ['Button','t-button','Inter 600 · 15','Get Pre-Approved'],
+      ['Price','t-price','Sora 700 · 20→24','$389/mo'],
+      ['Data / mono','t-data','JetBrains Mono 500 · 14→15','VIN 1HGCM82633A004352'],
+    ];
+    document.getElementById('typescale').innerHTML = type.map(([role,cls,spec,sample],i) => `
+      <div class="flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-7 px-5 py-4 ${i?'border-t border-border':''}">
+        <div class="w-[150px] flex-none"><div class="t-label">${role}</div><div class="font-mono text-[11px] text-faint mt-0.5">${spec}</div></div>
+        <div class="${cls}">${sample}</div>
+      </div>`).join('');
+
+    const radii = [['xs','4'],['sm','8'],['field','8'],['md','12']];
+    document.getElementById('radii').innerHTML = radii.map(([n,px]) => `
+      <div class="text-center"><div style="width:80px;height:80px;background:var(--color-blue-soft);border:1px solid var(--color-border);border-radius:var(--radius-${n})"></div><div class="t-data text-muted mt-2.5">${n} · ${px}</div></div>`).join('');
+
+    const shadows = ['xs','sm','md','lg'];
+    document.getElementById('shadows').innerHTML = shadows.map(s => `
+      <div class="text-center"><div style="width:112px;height:80px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-${s})"></div><div class="t-data text-muted mt-2.5">shadow-${s}</div></div>`).join('');
+
+    const spacing = [1,2,3,4,6,8,12,16];
+    document.getElementById('spacing-rows').innerHTML = spacing.map(s => `
+      <div class="flex items-center gap-4 mb-2"><span class="t-data text-faint w-7">${s}</span><div style="height:16px;width:${s*4}px;background:var(--color-cyan);border-radius:var(--radius-xs)"></div><span class="t-data text-muted">${s*4}px</span></div>`).join('');
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+/* ============================================================
+   DRIVE MAX USA — DESIGN TOKENS  (single source of truth)
+   Plain CSS. Change a value here → updates everywhere.
+   Tailwind (CDN) reads these same vars via js/tailwind.config.js,
+   so utilities like bg-navy / text-blue use these tokens too.
+   ============================================================ */
+:root {
+  /* ---- Surfaces ---- */
+  --color-base: #fafbfc;
+  --color-surface: #ffffff;
+  --color-section: #f2f4f7;
+  --color-border: #e4e8ef;
+
+  /* ---- Text ---- */
+  --color-ink: #100f13;
+  --color-body: #2a2e37;
+  --color-muted: #5b6472;
+  --color-faint: #8a93a3;
+
+  /* ---- Brand (from logo) ---- */
+  --color-navy: #1c1f53;
+  --color-blue: #2a4fa2;
+  --color-cyan: #4cb8e9;
+  --color-blue-soft: #ecf0f9;
+
+  /* ---- Accent & status ---- */
+  --color-amber: #f5a623;       /* PRIMARY CTA ONLY */
+  --color-success: #2e9e5b;
+  --color-danger: #d64545;
+  --color-warning: #e0920f;
+
+  /* ---- Font families ---- */
+  --font-display: "Sora", system-ui, sans-serif;            /* headings + price */
+  --font-sans: "Inter", system-ui, sans-serif;              /* body + UI */
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;   /* eyebrow + data */
+
+  /* ---- Type scale (fluid mobile→desktop) — size / line-height / letter-spacing ---- */
+  --fs-display-xl: clamp(40px, 27.5px + 3.48vw, 72px); --lh-display-xl: 1.04; --ls-display-xl: -1.4px;
+  --fs-display-l:  clamp(32px, 25.7px + 1.74vw, 48px); --lh-display-l: 1.05;  --ls-display-l: -1px;
+  --fs-h1: clamp(30px, 27.7px + 0.65vw, 36px);  --lh-h1: 1.11; --ls-h1: -0.4px;
+  --fs-h2: clamp(24px, 20.9px + 0.87vw, 32px);  --lh-h2: 1.18; --ls-h2: -0.3px;
+  --fs-h3: clamp(20px, 19.2px + 0.22vw, 22px);  --lh-h3: 1.27; --ls-h3: 0;
+  --fs-h4: clamp(17px, 16.6px + 0.11vw, 18px);  --lh-h4: 1.33; --ls-h4: 0;
+  --fs-eyebrow: 12px; --lh-eyebrow: 1.42; --ls-eyebrow: 2.2px;
+  --fs-lead: clamp(18px, 17.2px + 0.22vw, 20px); --lh-lead: 1.5; --ls-lead: 0;
+  --fs-body: 16px;    --lh-body: 1.56;    --ls-body: 0;
+  --fs-body-sm: 14px; --lh-body-sm: 1.5;  --ls-body-sm: 0;
+  --fs-caption: 13px; --lh-caption: 1.46; --ls-caption: 0;
+  --fs-label: 13px;   --lh-label: 1.38;   --ls-label: 0;
+  --fs-button: 15px;  --lh-button: 1;     --ls-button: 0;
+  --fs-price: clamp(20px, 18.4px + 0.43vw, 24px); --lh-price: 1.08; --ls-price: 0;
+  --fs-data: clamp(14px, 13.6px + 0.11vw, 15px);  --lh-data: 1.43;  --ls-data: 0;
+
+  /* ---- Weights ---- */
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-black: 800;
+
+  /* ---- Radius ---- */
+  --radius-xs: 4px; --radius-sm: 8px; --radius-field: 8px;
+  --radius-md: 12px;
+  --radius-full: 9999px;  /* pill utility for badges/avatars — not a sizing step */
+
+  /* ---- Shadows ---- */
+  --shadow-xs: 0 1px 2px 0 rgb(16 15 19 / 0.04);
+  --shadow-sm: 0 1px 3px 0 rgb(16 15 19 / 0.06), 0 1px 2px -1px rgb(16 15 19 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(16 15 19 / 0.08), 0 2px 6px -2px rgb(16 15 19 / 0.06);
+  --shadow-lg: 0 12px 28px -6px rgb(16 15 19 / 0.12), 0 6px 12px -6px rgb(16 15 19 / 0.08);
+  --shadow-focus: 0 0 0 3px rgb(76 184 233 / 0.35);
+
+  /* ---- Layout ---- */
+  --container: 1200px;
+  --gutter: 24px;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--color-base);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; }
+a { color: var(--color-blue); text-decoration: none; }
+::selection { background: var(--color-cyan); color: #fff; }
+:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+
+.container { max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES  (role → exact spec)
+   ============================================================ */
+.t-display-xl { font-family: var(--font-display); font-weight: var(--fw-black); font-size: var(--fs-display-xl); line-height: var(--lh-display-xl); letter-spacing: var(--ls-display-xl); color: var(--color-ink); }
+.t-display-l  { font-family: var(--font-display); font-weight: var(--fw-black); font-size: var(--fs-display-l);  line-height: var(--lh-display-l);  letter-spacing: var(--ls-display-l);  color: var(--color-ink); }
+.t-h1 { font-family: var(--font-display); font-weight: var(--fw-bold);     font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1); color: var(--color-ink); }
+.t-h2 { font-family: var(--font-display); font-weight: var(--fw-bold);     font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--ls-h2); color: var(--color-ink); }
+.t-h3 { font-family: var(--font-display); font-weight: var(--fw-semibold); font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--ls-h3); color: var(--color-ink); }
+.t-h4 { font-family: var(--font-display); font-weight: var(--fw-semibold); font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--ls-h4); color: var(--color-ink); }
+.t-eyebrow { font-family: var(--font-mono); font-weight: var(--fw-medium); font-size: var(--fs-eyebrow); line-height: var(--lh-eyebrow); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--color-muted); }
+.t-lead { font-family: var(--font-sans); font-weight: var(--fw-regular); font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--color-body); }
+.t-body { font-family: var(--font-sans); font-weight: var(--fw-regular); font-size: var(--fs-body); line-height: var(--lh-body); }
+.t-body-sm { font-family: var(--font-sans); font-weight: var(--fw-regular); font-size: var(--fs-body-sm); line-height: var(--lh-body-sm); }
+.t-caption { font-family: var(--font-sans); font-weight: var(--fw-regular); font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--color-muted); }
+.t-label { font-family: var(--font-sans); font-weight: var(--fw-semibold); font-size: var(--fs-label); line-height: var(--lh-label); color: var(--color-body); }
+.t-button { font-family: var(--font-sans); font-weight: var(--fw-semibold); font-size: var(--fs-button); line-height: var(--lh-button); }
+.t-price { font-family: var(--font-display); font-weight: var(--fw-bold); font-size: var(--fs-price); line-height: var(--lh-price); color: var(--color-ink); }
+.t-data { font-family: var(--font-mono); font-weight: var(--fw-medium); font-size: var(--fs-data); line-height: var(--lh-data); color: var(--color-body); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding-inline: 20px; border: 1px solid transparent; border-radius: var(--radius-md); font-family: var(--font-sans); font-weight: var(--fw-semibold); font-size: var(--fs-button); white-space: nowrap; cursor: pointer; transition: background .15s, color .15s, filter .15s, border-color .15s, transform .15s; }
+.btn--primary { background: var(--color-amber); color: var(--color-ink); }
+.btn--primary:hover { filter: brightness(.95); }
+.btn--secondary { background: var(--color-blue); color: #fff; }
+.btn--secondary:hover { background: var(--color-navy); }
+.btn--outline { background: var(--color-surface); border-color: var(--color-border); color: var(--color-body); }
+.btn--outline:hover { background: var(--color-section); border-color: color-mix(in srgb, var(--color-blue) 40%, transparent); }
+.btn--ghost { background: transparent; color: var(--color-body); }
+.btn--ghost:hover { background: var(--color-section); }
+.btn--danger { background: var(--color-danger); color: #fff; }
+.btn--link { background: none; color: var(--color-blue); height: auto; padding: 0; }
+.btn--link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.btn--xs { height: 30px; padding-inline: 12px; gap: 6px; font-size: var(--fs-caption); }
+.btn--sm { height: 36px; padding-inline: 14px; font-size: var(--fs-body-sm); }
+.btn--lg { height: 52px; padding-inline: 28px; font-size: var(--fs-body); }
+.btn--block { width: 100%; }
+.btn:disabled { opacity: .5; pointer-events: none; }
+
+/* ============================================================
+   FORM CONTROLS  (tighter radius)
+   ============================================================ */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > label { font-family: var(--font-sans); font-weight: var(--fw-semibold); font-size: var(--fs-label); color: var(--color-body); }
+.field .req { color: var(--color-danger); }
+.field .hint { font-size: var(--fs-caption); color: var(--color-faint); }
+.ctrl { height: 44px; width: 100%; border: 1px solid var(--color-border); border-radius: var(--radius-field); background: var(--color-surface); padding-inline: 14px; font-family: var(--font-sans); font-size: var(--fs-body); color: var(--color-body); transition: border-color .15s, box-shadow .15s; }
+.ctrl::placeholder { color: var(--color-faint); }
+.ctrl:focus { outline: none; border-color: var(--color-blue); box-shadow: var(--shadow-focus); }
+select.ctrl { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238a93a3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+textarea.ctrl { height: auto; min-height: 96px; padding-block: 10px; resize: vertical; line-height: var(--lh-body); }
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: var(--radius-full); font-family: var(--font-sans); font-size: var(--fs-caption); font-weight: var(--fw-semibold); }
+.badge--neutral { background: var(--color-section); color: var(--color-muted); }
+.badge--blue { background: var(--color-blue-soft); color: var(--color-blue); }
+.badge--success { background: color-mix(in srgb, var(--color-success) 12%, transparent); color: var(--color-success); }
+.badge--danger { background: color-mix(in srgb, var(--color-danger) 12%, transparent); color: var(--color-danger); }
+.badge--warning { background: color-mix(in srgb, var(--color-warning) 12%, transparent); color: var(--color-warning); }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; }
+.card__media { aspect-ratio: 16 / 9; background: var(--color-section); }
+.card__body { padding: 20px; }
+
+/* ============================================================
+   SCROLL REVEAL (tiny vanilla JS toggles .is-in)
+   ============================================================ */
+[data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+[data-reveal].is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1 !important; transform: none !important; } }
