@@ -192,7 +192,7 @@
     document.getElementById('shadows').innerHTML = shadows.map(s => `
       <div class="text-center"><div style="width:112px;height:80px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-${s})"></div><div class="t-data text-muted mt-2.5">shadow-${s}</div></div>`).join('');
 
-    const spacing = [1,2,3,4,6,8,12,16];
+    const spacing = [1,2,3,4,6,8,12,16,24,32];
     document.getElementById('spacing-rows').innerHTML = spacing.map(s => `
       <div class="flex items-center gap-4 mb-2"><span class="t-data text-faint w-7">${s}</span><div style="height:16px;width:${s*4}px;background:var(--color-cyan);border-radius:var(--radius-xs)"></div><span class="t-data text-muted">${s*4}px</span></div>`).join('');
   </script>

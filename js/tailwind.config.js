@@ -43,6 +43,7 @@ tailwind.config = {
         lg: 'var(--shadow-lg)',
       },
       maxWidth: { container: 'var(--container)' },
+      spacing: { '3xl': 'var(--space-3xl)' },  // 128px — large section gap
     },
   },
 }

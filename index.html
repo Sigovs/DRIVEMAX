@@ -21,6 +21,13 @@
   <!-- Header: transparent over hero, solid colour on scroll -->
   <style>
     #hdr.is-scrolled { background: var(--color-base); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-sm); }
+    /* compact the header on scroll: smaller logo, tighter padding + row gap */
+    #hdr .brand img { transition: height .3s ease; }
+    #hdr.is-scrolled .brand img { height: 64px; }
+    #hdr .container { transition: padding-top .3s ease, padding-bottom .3s ease; }
+    #hdr.is-scrolled .container { padding-top: 12px; padding-bottom: 12px; }
+    #hdr .hdr-right { transition: gap .3s ease; }
+    #hdr.is-scrolled .hdr-right { gap: 12px; }
     /* nav links: white over hero, ink on scroll */
     #hdr .nav-link { color: rgb(255 255 255 / 0.88); transition: color .2s ease; }
     #hdr .nav-link:hover { color: #fff; }
@@ -30,6 +37,10 @@
     #hdr .has-sub:hover .sub-menu,
     #hdr .has-sub:focus-within .sub-menu { opacity: 1; visibility: visible; transform: translateY(0); }
     #hdr .has-sub:hover .caret { transform: rotate(180deg); }
+    /* hero page-load: staircase slide-in from the left */
+    @keyframes heroIn { from { opacity: 0; transform: translateX(-32px); } to { opacity: 1; transform: translateX(0); } }
+    .hero-in { opacity: 0; animation: heroIn .7s cubic-bezier(.22,.7,.2,1) both; }
+    @media (prefers-reduced-motion: reduce) { .hero-in { opacity: 1; animation: none; } }
   </style>
 </head>
 
@@ -38,11 +49,11 @@
   <!-- ============ HEADER (transparent → colour on scroll) ============ -->
   <header id="hdr" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
     <div class="container flex items-center justify-between gap-8 py-6">
-      <a href="/" aria-label="Drive Max USA — home">
+      <a href="/" class="brand" aria-label="Drive Max USA — home">
         <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-20 w-auto" />
       </a>
 
-      <div class="flex flex-col items-end gap-8">
+      <div class="hdr-right flex flex-col items-end gap-8">
         <!-- contact mini-buttons -->
         <div class="hidden sm:flex flex-wrap items-center justify-end gap-3">
           <a href="tel:+15168942777" class="btn btn--outline btn--xs">
@@ -93,20 +104,20 @@
            style="background-image: linear-gradient(100deg, rgba(16,15,19,.74) 0%, rgba(16,15,19,.42) 45%, rgba(16,15,19,.1) 100%), url('images/hero/hero_img_desk.png'), linear-gradient(155deg, #1c1f53, #0c0f24);"></div>
 
       <div class="container w-full pt-36 pb-16 md:pt-40 md:pb-20">
-        <div data-reveal class="max-w-[680px]">
-          <div class="t-eyebrow text-cyan">Woodbury, NY · 500+ vehicles in stock</div>
-          <h1 class="t-display-xl text-white mt-4">Find your next car,<br /><span class="text-cyan">financed your way.</span></h1>
-          <p class="t-lead text-white/80 mt-5 max-w-[40ch]">Pre-owned &amp; luxury vehicles with financing built around you — not your credit score.</p>
+        <div class="max-w-[680px]">
+          <div class="hero-in t-eyebrow text-cyan" style="animation-delay:.05s">Woodbury, NY · 500+ vehicles in stock</div>
+          <h1 class="hero-in t-display-xl text-white mt-4" style="animation-delay:.15s">Find your next car,<br /><span class="text-cyan">financed your way.</span></h1>
+          <p class="hero-in t-lead text-white/80 mt-6 max-w-[40ch]" style="animation-delay:.28s">Pre-owned &amp; luxury vehicles with financing built around you — not your credit score.</p>
 
-          <a href="#" class="inline-flex items-center gap-3 mt-7 px-4 py-3 rounded-md bg-white/10 border border-white/25 backdrop-blur hover:bg-white/15 transition">
-            <span class="font-mono text-[11px] font-bold tracking-wider text-ink bg-cyan px-2 py-1 rounded-xs">FAST</span>
-            <span class="t-body-sm text-white"><strong class="text-white">Get pre-approved in seconds.</strong> No SSN or DOB required · no effect on your credit score.</span>
-            <span class="ml-auto text-cyan font-bold">→</span>
+          <a href="#" style="animation-delay:.42s" class="hero-in group inline-flex items-center gap-4 mt-8 max-w-[600px] px-6 py-4 rounded-md bg-white/10 border border-white/20 backdrop-blur hover:bg-white/15 transition-colors">
+            <span class="t-eyebrow text-ink bg-cyan px-2 py-1 rounded-xs shrink-0">FAST</span>
+            <span class="t-body-sm text-white/90"><strong class="block text-white">Get pre-approved in seconds.</strong>No SSN or DOB required · no effect on your credit score.</span>
+            <svg class="w-5 h-5 text-cyan shrink-0 ml-auto transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
 
         <!-- YMM search -->
-        <form data-reveal data-reveal-delay="0.1" class="grid gap-3.5 mt-9 p-[18px] items-end bg-surface border border-border rounded-md shadow-lg max-w-[980px] sm:grid-cols-2 lg:grid-cols-[0.8fr_1fr_1fr_1.3fr_auto]">
+        <form style="animation-delay:.56s" class="hero-in grid gap-4 mt-8 p-4 items-end bg-surface border border-border rounded-md shadow-lg max-w-[980px] sm:grid-cols-2 lg:grid-cols-[0.8fr_1fr_1fr_1.3fr_auto]">
           <div class="field"><label class="t-label" for="year">Year</label>
             <select id="year" class="ctrl"><option value="">Any year</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option></select></div>
           <div class="field"><label class="t-label" for="make">Make</label>
@@ -122,9 +133,126 @@
       <!-- scroll cue -->
       <div class="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[11px] tracking-[2px] text-white/55 hidden md:block">SCROLL ↓</div>
     </section>
+
+    <!-- ============ SEARCH TABS ============ -->
+    <section class="pt-12 md:pt-16 pb-3xl">
+      <div class="container" data-tabs data-reveal>
+        <!-- tab bar -->
+        <div class="tabs" role="tablist" aria-label="Search vehicles by">
+          <button class="tab" role="tab" id="tab-specials" aria-controls="panel-specials" aria-selected="false">Search by Specials</button>
+          <button class="tab" role="tab" id="tab-body" aria-controls="panel-body" aria-selected="true">Search by Body Style</button>
+          <button class="tab" role="tab" id="tab-make" aria-controls="panel-make" aria-selected="false">Search by Make</button>
+          <button class="tab" role="tab" id="tab-keyword" aria-controls="panel-keyword" aria-selected="false">Search by Keyword</button>
+        </div>
+
+        <div class="pt-12 md:pt-16">
+          <!-- SPECIALS -->
+          <div id="panel-specials" role="tabpanel" aria-labelledby="tab-specials" hidden>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <a href="#" class="card card__body hover:shadow-md hover:-translate-y-1 transition">
+                <div class="t-eyebrow text-blue">Best value</div>
+                <h3 class="t-h4 mt-2">Payments under $300/mo</h3>
+                <p class="t-caption text-muted mt-2">Browse vehicles that fit a smaller monthly budget.</p>
+              </a>
+              <a href="#" class="card card__body hover:shadow-md hover:-translate-y-1 transition">
+                <div class="t-eyebrow text-blue">Low upfront</div>
+                <h3 class="t-h4 mt-2">$0 Down available</h3>
+                <p class="t-caption text-muted mt-2">Qualifying buyers can drive home with nothing down.</p>
+              </a>
+              <a href="#" class="card card__body hover:shadow-md hover:-translate-y-1 transition">
+                <div class="t-eyebrow text-blue">Certified</div>
+                <h3 class="t-h4 mt-2">Certified Pre-Owned deals</h3>
+                <p class="t-caption text-muted mt-2">Inspected, reconditioned and warranty-backed.</p>
+              </a>
+              <a href="#" class="card card__body hover:shadow-md hover:-translate-y-1 transition">
+                <div class="t-eyebrow text-blue">This month</div>
+                <h3 class="t-h4 mt-2">Manager's specials</h3>
+                <p class="t-caption text-muted mt-2">Hand-picked price drops, updated weekly.</p>
+              </a>
+            </div>
+          </div>
+
+          <!-- BODY STYLE (default) -->
+          <div id="panel-body" role="tabpanel" aria-labelledby="tab-body">
+            <div class="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+              <a href="#" class="group flex flex-col items-center text-center p-5 bg-surface border border-border rounded-md hover:-translate-y-1 hover:shadow-md hover:border-blue/30 transition">
+                <!-- /images/vehicles/sport.png -->
+                <span class="flex items-center justify-center w-full aspect-[16/9] bg-section rounded-md mb-4"><svg class="w-16 h-9 text-blue/70" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c3-7 9-9 16-9h6l8 6 9 1v2H4z"/><circle cx="14" cy="18" r="2.4"/><circle cx="35" cy="18" r="2.4"/></svg></span>
+                <span class="t-h4 text-ink">Sport / Convertible</span>
+                <span class="t-caption text-muted mt-2">Style, performance, image, driving enjoyment</span>
+              </a>
+              <a href="#" class="group flex flex-col items-center text-center p-5 bg-surface border border-border rounded-md hover:-translate-y-1 hover:shadow-md hover:border-blue/30 transition">
+                <!-- /images/vehicles/coupe.png -->
+                <span class="flex items-center justify-center w-full aspect-[16/9] bg-section rounded-md mb-4"><svg class="w-16 h-9 text-blue/70" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17c2-6 7-8 13-8h5l7 6 9 1v2H5z"/><circle cx="15" cy="18" r="2.4"/><circle cx="35" cy="18" r="2.4"/></svg></span>
+                <span class="t-h4 text-ink">Coupe</span>
+                <span class="t-caption text-muted mt-2">2-door style, infrequent rear passengers</span>
+              </a>
+              <a href="#" class="group flex flex-col items-center text-center p-5 bg-surface border border-border rounded-md hover:-translate-y-1 hover:shadow-md hover:border-blue/30 transition">
+                <!-- /images/vehicles/sedan.png -->
+                <span class="flex items-center justify-center w-full aspect-[16/9] bg-section rounded-md mb-4"><svg class="w-16 h-9 text-blue/70" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l5-6h20l8 6 5 1v2H5z"/><circle cx="15" cy="18" r="2.4"/><circle cx="35" cy="18" r="2.4"/></svg></span>
+                <span class="t-h4 text-ink">Sedan</span>
+                <span class="t-caption text-muted mt-2">4-door style, room for passengers</span>
+              </a>
+              <a href="#" class="group flex flex-col items-center text-center p-5 bg-surface border border-border rounded-md hover:-translate-y-1 hover:shadow-md hover:border-blue/30 transition">
+                <!-- /images/vehicles/crossover.png -->
+                <span class="flex items-center justify-center w-full aspect-[16/9] bg-section rounded-md mb-4"><svg class="w-16 h-9 text-blue/70" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l4-7h22l7 7 5 1v2H5z"/><circle cx="15" cy="18" r="2.4"/><circle cx="35" cy="18" r="2.4"/></svg></span>
+                <span class="t-h4 text-ink">Crossover</span>
+                <span class="t-caption text-muted mt-2">Style, performance, image, driving enjoyment</span>
+              </a>
+              <a href="#" class="group flex flex-col items-center text-center p-5 bg-surface border border-border rounded-md hover:-translate-y-1 hover:shadow-md hover:border-blue/30 transition">
+                <!-- /images/vehicles/suv.png -->
+                <span class="flex items-center justify-center w-full aspect-[16/9] bg-section rounded-md mb-4"><svg class="w-16 h-9 text-blue/70" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16l3-8h26l4 8M9 16h30v3H9z"/><circle cx="16" cy="19" r="2.4"/><circle cx="34" cy="19" r="2.4"/></svg></span>
+                <span class="t-h4 text-ink">SUV</span>
+                <span class="t-caption text-muted mt-2">Style, performance, image, driving enjoyment</span>
+              </a>
+              <a href="#" class="group flex flex-col items-center text-center p-5 bg-surface border border-border rounded-md hover:-translate-y-1 hover:shadow-md hover:border-blue/30 transition">
+                <!-- /images/vehicles/pickup.png -->
+                <span class="flex items-center justify-center w-full aspect-[16/9] bg-section rounded-md mb-4"><svg class="w-16 h-9 text-blue/70" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16V9h20v7M24 12h8l8 4v3H4v-3"/><circle cx="14" cy="19" r="2.4"/><circle cx="35" cy="19" r="2.4"/></svg></span>
+                <span class="t-h4 text-ink">Pickup truck</span>
+                <span class="t-caption text-muted mt-2">To haul / tow large items</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- MAKE -->
+          <div id="panel-make" role="tabpanel" aria-labelledby="tab-make" hidden>
+            <div class="flex flex-wrap justify-center gap-3">
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Ford</span><span class="t-data text-faint">46</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Toyota</span><span class="t-data text-faint">24</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Honda</span><span class="t-data text-faint">19</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Chevrolet</span><span class="t-data text-faint">17</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Jeep</span><span class="t-data text-faint">17</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">BMW</span><span class="t-data text-faint">14</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Mercedes-Benz</span><span class="t-data text-faint">12</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Lexus</span><span class="t-data text-faint">9</span></a>
+              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-blue">View all makes →</span></a>
+            </div>
+          </div>
+
+          <!-- KEYWORD -->
+          <div id="panel-keyword" role="tabpanel" aria-labelledby="tab-keyword" hidden>
+            <div class="max-w-[640px] mx-auto">
+              <form class="flex flex-col sm:flex-row gap-3">
+                <input class="ctrl" placeholder="Search make, model or keyword — e.g. F-150, AWD, low miles" aria-label="Keyword" />
+                <button type="submit" class="btn btn--primary">Search</button>
+              </form>
+              <div class="flex flex-wrap justify-center gap-2 mt-5">
+                <span class="t-caption text-faint mr-1">Popular:</span>
+                <a href="#" class="t-body-sm text-blue hover:underline">F-150</a>
+                <a href="#" class="t-body-sm text-blue hover:underline">AWD</a>
+                <a href="#" class="t-body-sm text-blue hover:underline">Low miles</a>
+                <a href="#" class="t-body-sm text-blue hover:underline">Third row</a>
+                <a href="#" class="t-body-sm text-blue hover:underline">Under $20k</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="js/header.js"></script>
+  <script src="js/tabs.js"></script>
   <script src="js/reveal.js"></script>
 </body>
 </html>
