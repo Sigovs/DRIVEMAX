@@ -19,7 +19,7 @@
 
   /* ---- Brand (from logo) ---- */
   --color-navy: #1c1f53;
-  --color-blue: #2a4fa2;
+  --color-blue: #2b55a5;
   --color-cyan: #4cb8e9;
   --color-blue-soft: #ecf0f9;
 
@@ -94,6 +94,10 @@ a { color: var(--color-blue); text-decoration: none; }
 :focus-visible { outline: none; box-shadow: var(--shadow-focus); }
 
 .container { max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* hide scrollbar (carousel track) while keeping scroll */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
 /* ============================================================
    TYPOGRAPHY UTILITIES  (role → exact spec)
