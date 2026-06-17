@@ -35,6 +35,7 @@ tailwind.config = {
         field: 'var(--radius-field)',
         DEFAULT: 'var(--radius-md)',
         md: 'var(--radius-md)',
+        lg: 'var(--radius-lg)',
         full: 'var(--radius-full)',
       },
       boxShadow: {

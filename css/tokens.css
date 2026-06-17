@@ -57,6 +57,7 @@
   /* ---- Radius ---- */
   --radius-xs: 4px; --radius-sm: 8px; --radius-field: 8px;
   --radius-md: 12px;
+  --radius-lg: 20px;      /* large panels / hero cards */
   --radius-full: 9999px;  /* pill utility for badges/avatars — not a sizing step */
 
   /* ---- Shadows ---- */
@@ -193,3 +194,7 @@ textarea.ctrl { height: auto; min-height: 96px; padding-block: 10px; resize: ver
 [data-reveal="left"] { transform: translateX(-32px); }
 [data-reveal].is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1 !important; transform: none !important; } }
+/* centered vehicle group: floats up from below while keeping vertical centering */
+[data-reveal="car"] { transform: translateY(calc(-50% + 52px)); transition: opacity .9s ease, transform .9s cubic-bezier(.22,.7,.2,1); }
+[data-reveal="car"].is-in { transform: translateY(-50%); }
+@media (prefers-reduced-motion: reduce) { [data-reveal="car"], [data-reveal="car"].is-in { opacity: 1 !important; transform: translateY(-50%) !important; } }
