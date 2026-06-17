@@ -335,7 +335,7 @@
 
       <!-- full-bleed scroll track: aligned to container, cards bleed past the right edge -->
       <div class="mt-12 md:mt-16" data-reveal>
-        <div data-carousel-track class="no-scrollbar flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2"
+        <div data-carousel-track class="no-scrollbar flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pt-3 pb-10"
              style="padding-inline: var(--gutter); scroll-padding-left: var(--gutter);">
 
           <!-- 1 · Ford Explorer -->
@@ -523,7 +523,7 @@
     </section>
 
     <!-- ============ DEALERSHIP (full-width visual break — text right) ============ -->
-    <section class="relative isolate overflow-hidden text-white mb-16 md:mb-24">
+    <section class="relative isolate overflow-hidden text-white">
       <!-- full-bleed background image with fixed-attachment parallax -->
       <div class="absolute inset-0 -z-10 bg-cover bg-center bg-fixed" role="img" aria-label="Car lot at dusk filled with rows of vehicles"
            style="background-image: url('images/finance/lot-night.jpg');"></div>
@@ -536,6 +536,85 @@
             <span class="text-cyan">Pick My Payment.</span><br />Find My Car in Seconds.
           </h2>
           <a href="#" class="btn btn--primary btn--lg mt-8" data-reveal data-reveal-delay="0.12">Explore Inventory</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE — A Simpler Way to Buy (dark luxury, 4 cards) ============ -->
+    <section class="text-white pt-16 md:pt-24 pb-3xl"
+             style="background:
+               radial-gradient(52% 44% at 80% 82%, color-mix(in srgb, var(--color-blue) 60%, #000), transparent 60%),
+               radial-gradient(88% 80% at 86% 78%, color-mix(in srgb, var(--color-navy) 85%, #000), transparent 62%),
+               radial-gradient(70% 60% at 12% 86%, color-mix(in srgb, var(--color-cyan) 42%, transparent), transparent 62%),
+               radial-gradient(120% 120% at 8% 6%, color-mix(in srgb, var(--color-navy) 92%, #000), transparent 60%),
+               linear-gradient(300deg, var(--color-blue), var(--color-navy));">
+      <div class="container">
+        <!-- intro -->
+        <div class="max-w-[620px]">
+          <div class="t-eyebrow text-cyan" data-reveal>Experience</div>
+          <h2 class="t-display-l text-white mt-3" data-reveal data-reveal-delay="0.1">A Simpler Way to Buy</h2>
+          <p class="t-lead text-white/65 mt-4" data-reveal data-reveal-delay="0.2">Every step of the ownership journey, thoughtfully streamlined.</p>
+        </div>
+
+        <!-- cards -->
+        <div class="grid gap-6 mt-12 md:mt-16 sm:grid-cols-2 lg:grid-cols-4">
+
+          <!-- 01 -->
+          <article class="group flex flex-col rounded-md overflow-hidden bg-white/[0.04] border border-white/10 shadow-lg transition duration-300 hover:-translate-y-1.5 hover:border-white/20 hover:bg-white/[0.06]" data-reveal>
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src="images/experience/browse.jpg" alt="Curated lineup of premium vehicles in a dark showroom" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              <div class="absolute inset-x-0 bottom-0 h-1/2" style="background: linear-gradient(transparent, rgb(16 15 19 / 0.45));"></div>
+              <span class="absolute top-3 left-3 t-data text-cyan">01</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="t-h3 text-white">Browse Inventory</h3>
+              <p class="t-body-sm text-white/55 mt-2 flex-1">Explore our current collection and find the vehicle that fits your lifestyle, preferences, and budget.</p>
+              <a href="#" class="mt-5 t-button text-cyan inline-flex items-center gap-1.5">Browse Inventory<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </article>
+
+          <!-- 02 -->
+          <article class="group flex flex-col rounded-md overflow-hidden bg-white/[0.04] border border-white/10 shadow-lg transition duration-300 hover:-translate-y-1.5 hover:border-white/20 hover:bg-white/[0.06]" data-reveal data-reveal-delay="0.08">
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src="images/experience/test-drive.jpg" alt="Hands on the steering wheel of a luxury vehicle at dusk" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              <div class="absolute inset-x-0 bottom-0 h-1/2" style="background: linear-gradient(transparent, rgb(16 15 19 / 0.45));"></div>
+              <span class="absolute top-3 left-3 t-data text-cyan">02</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="t-h3 text-white">Schedule Test Drive</h3>
+              <p class="t-body-sm text-white/55 mt-2 flex-1">Experience the vehicle firsthand with a personalized test drive scheduled at your convenience.</p>
+              <a href="#" class="mt-5 t-button text-cyan inline-flex items-center gap-1.5">Schedule Test Drive<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </article>
+
+          <!-- 03 -->
+          <article class="group flex flex-col rounded-md overflow-hidden bg-white/[0.04] border border-white/10 shadow-lg transition duration-300 hover:-translate-y-1.5 hover:border-white/20 hover:bg-white/[0.06]" data-reveal data-reveal-delay="0.16">
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src="images/experience/trade.jpg" alt="Elegant key handoff beside a premium vehicle" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              <div class="absolute inset-x-0 bottom-0 h-1/2" style="background: linear-gradient(transparent, rgb(16 15 19 / 0.45));"></div>
+              <span class="absolute top-3 left-3 t-data text-cyan">03</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="t-h3 text-white">Trade or Sell</h3>
+              <p class="t-body-sm text-white/55 mt-2 flex-1">Receive a professional valuation and explore trade-in or acquisition opportunities with confidence.</p>
+              <a href="#" class="mt-5 t-button text-cyan inline-flex items-center gap-1.5">Trade or Sell<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </article>
+
+          <!-- 04 -->
+          <article class="group flex flex-col rounded-md overflow-hidden bg-white/[0.04] border border-white/10 shadow-lg transition duration-300 hover:-translate-y-1.5 hover:border-white/20 hover:bg-white/[0.06]" data-reveal data-reveal-delay="0.24">
+            <div class="relative aspect-[4/3] overflow-hidden">
+              <img src="images/experience/approval.jpg" alt="Premium customer consultation beside a luxury SUV" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+              <div class="absolute inset-x-0 bottom-0 h-1/2" style="background: linear-gradient(transparent, rgb(16 15 19 / 0.45));"></div>
+              <span class="absolute top-3 left-3 t-data text-cyan">04</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="t-h3 text-white">Credit Approval</h3>
+              <p class="t-body-sm text-white/55 mt-2 flex-1">Secure financing options tailored to your needs through a simple and transparent process.</p>
+              <a href="#" class="mt-5 t-button text-cyan inline-flex items-center gap-1.5">Get Approved<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
