@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-Owned Inventory — Drive Max USA</title>
+  <meta name="description" content="Browse Drive Max USA's pre-owned & luxury inventory. Filter by year, make, model, price and mileage. Woodbury, NY · Ships nationwide." />
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/hero/drivemax_new_logo.svg" type="image/svg+xml" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (CDN, no build) + token-driven config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind.config.js"></script>
+
+  <!-- Design tokens + components (single source of truth) -->
+  <link rel="stylesheet" href="css/tokens.css" />
+
+  <style>
+    /* ---- SRP solid header (no dark hero on this page) ---- */
+    #hdr { background: var(--color-base); border-bottom: 1px solid var(--color-border); }
+    #hdr.is-scrolled { box-shadow: var(--shadow-md); }
+    /* collapse header on scroll: shrink logo, tighten padding + gaps, contacts → icon-only */
+    #hdr .brand img { transition: height .3s ease; }
+    #hdr.is-scrolled .brand img { height: 44px; }
+    #hdr .container { transition: padding-top .3s ease, padding-bottom .3s ease; }
+    #hdr.is-scrolled .container { padding-top: 8px; padding-bottom: 8px; }
+    #hdr .hdr-right { transition: gap .3s ease; }
+    #hdr.is-scrolled .hdr-right { gap: 8px; }
+    #hdr .hdr-contact { transition: width .3s ease, padding .3s ease; }
+    #hdr.is-scrolled .hdr-label { display: none; }
+    #hdr.is-scrolled .hdr-contact { width: 30px; padding-inline: 0; gap: 0; }
+    #hdr .nav-link { color: var(--color-muted); transition: color .2s ease; }
+    #hdr .nav-link:hover { color: var(--color-blue); }
+    #hdr .burger { color: var(--color-ink); }
+    #hdr .hdr-contact { background: var(--color-blue); border-color: var(--color-blue); color: #fff; }
+    #hdr .hdr-contact:hover { background: var(--color-navy); border-color: var(--color-navy); color: #fff; }
+    /* dropdown: show on hover/focus-within */
+    #hdr .has-sub:hover .sub-menu,
+    #hdr .has-sub:focus-within .sub-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    #hdr .has-sub:hover .caret { transform: rotate(180deg); }
+
+    /* ---- Mobile nav drawer (shared pattern w/ index) ---- */
+    #mobile-menu { transition: opacity .3s ease, visibility .3s ease; }
+    #mobile-menu.is-open { opacity: 1; visibility: visible; }
+    #mobile-menu .panel { transition: transform .35s cubic-bezier(.22,.7,.2,1); }
+    #mobile-menu.is-open .panel { transform: translateX(0); }
+
+    /* ---- Dual-range slider (Price / Mileage) ---- */
+    .range { position: relative; height: 28px; }
+    .range__track, .range__fill { position: absolute; top: 50%; transform: translateY(-50%); height: 4px; border-radius: var(--radius-full); }
+    .range__track { left: 0; right: 0; background: var(--color-border); }
+    .range__fill { background: var(--color-blue); }
+    .range input[type="range"] {
+      position: absolute; left: 0; top: 0; width: 100%; height: 28px; margin: 0;
+      background: none; pointer-events: none; -webkit-appearance: none; appearance: none;
+    }
+    .range input[type="range"]::-webkit-slider-runnable-track { background: none; height: 28px; }
+    .range input[type="range"]::-moz-range-track { background: none; height: 28px; }
+    .range input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; pointer-events: auto;
+      height: 18px; width: 18px; border-radius: 50%; background: var(--color-surface);
+      border: 2px solid var(--color-blue); box-shadow: var(--shadow-sm); cursor: pointer; margin-top: 5px;
+    }
+    .range input[type="range"]::-moz-range-thumb {
+      pointer-events: auto; height: 16px; width: 16px; border-radius: 50%; background: var(--color-surface);
+      border: 2px solid var(--color-blue); box-shadow: var(--shadow-sm); cursor: pointer;
+    }
+    .range input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--shadow-focus); }
+
+    /* ---- Filters sidebar / mobile drawer ---- */
+    @media (min-width: 1024px) {
+      /* sticky sidebar; tall filter sets scroll inside the panel */
+      #filters { position: sticky; top: 6rem; align-self: start; visibility: visible; opacity: 1; }
+      #filters .filters__overlay { display: none; }
+      #filters .filters__panel { transform: none; max-height: calc(100vh - 7rem); overflow-y: auto; }
+    }
+    @media (max-width: 1023px) {
+      #filters { position: fixed; inset: 0; z-index: 60; visibility: hidden; opacity: 0; transition: opacity .3s ease, visibility .3s ease; }
+      #filters.is-open { visibility: visible; opacity: 1; }
+      #filters .filters__overlay { position: absolute; inset: 0; background: rgb(16 15 19 / 0.6); }
+      #filters .filters__panel { position: absolute; top: 0; left: 0; height: 100%; width: 90%; max-width: 380px; overflow-y: auto; background: var(--color-base); transform: translateX(-100%); transition: transform .35s cubic-bezier(.22,.7,.2,1); }
+      #filters.is-open .filters__panel { transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #mobile-menu, #mobile-menu .panel, #filters, #filters .filters__panel { transition: none; }
+    }
+
+    /* ---- Selectable chips (body style / drivetrain) ---- */
+    .chip { cursor: pointer; }
+    .chip > span { display: inline-flex; align-items: center; padding: 7px 14px; border: 1px solid var(--color-border); border-radius: var(--radius-full); font-family: var(--font-sans); font-size: var(--fs-body-sm); color: var(--color-body); background: var(--color-surface); transition: background .15s, border-color .15s, color .15s; }
+    .chip:hover > span { border-color: color-mix(in srgb, var(--color-blue) 40%, transparent); }
+    .chip > input:checked + span { background: var(--color-blue-soft); border-color: var(--color-blue); color: var(--color-blue); font-weight: var(--fw-semibold); }
+    .chip > input:focus-visible + span { box-shadow: var(--shadow-focus); }
+    /* checkbox accent */
+    input[type="checkbox"].accent-blue { accent-color: var(--color-blue); }
+  </style>
+</head>
+
+<body class="font-sans text-body bg-base">
+
+  <!-- ============ HEADER (solid, sticky) ============ -->
+  <header id="hdr" class="sticky top-0 inset-x-0 z-50">
+    <div class="container flex items-center justify-between gap-8 py-4">
+      <a href="index.html" class="brand" aria-label="Drive Max USA — home">
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-14 md:h-16 w-auto" />
+      </a>
+
+      <div class="hdr-right flex flex-col items-end gap-4">
+        <div class="hidden sm:flex flex-wrap items-center justify-end gap-3">
+          <a href="tel:+15167657222" class="btn btn--xs hdr-contact">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span class="hdr-label">Call Us: <span class="font-mono">516-765-7222</span></span>
+          </a>
+          <a href="#" class="btn btn--xs hdr-contact">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span class="hdr-label">Woodbury, NY</span>
+          </a>
+        </div>
+
+        <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
+          <div class="has-sub relative">
+            <a href="srp.html" class="nav-link t-body-sm font-medium inline-flex items-center gap-1">
+              Inventory
+              <svg class="caret w-3 h-3 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </a>
+            <div class="sub-menu invisible opacity-0 translate-y-1 transition-all duration-200 absolute left-0 top-full pt-4">
+              <div class="min-w-[210px] bg-surface border border-border rounded-md shadow-md py-2">
+                <a href="srp.html" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Pre-Owned</a>
+                <a href="srp.html" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Car Finder</a>
+                <a href="#" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Finance Center</a>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="nav-link t-body-sm font-medium">Get Pre-Approved</a>
+          <a href="#" class="nav-link t-body-sm font-medium">Tax ID/ITIN Financing</a>
+          <a href="#" class="nav-link t-body-sm font-medium">Sell Your Car</a>
+          <a href="#" class="nav-link t-body-sm font-medium">We Ship Nationwide</a>
+          <a href="#" class="nav-link t-body-sm font-medium">About Our Dealership</a>
+        </nav>
+      </div>
+
+      <button type="button" data-menu-open aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false"
+              class="burger lg:hidden inline-flex items-center justify-center w-11 h-11 -mr-2">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ MOBILE DRAWER (nav) ============ -->
+  <div id="mobile-menu" class="lg:hidden fixed inset-0 z-[60] invisible opacity-0" role="dialog" aria-modal="true" aria-label="Menu">
+    <div data-menu-close class="absolute inset-0 bg-ink/60" style="backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);"></div>
+    <div class="panel absolute top-0 right-0 h-full w-[86%] max-w-[360px] bg-base shadow-lg translate-x-full flex flex-col">
+      <div class="flex items-center justify-between px-6 h-[72px] border-b border-border">
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-12 w-auto" />
+        <button type="button" data-menu-close aria-label="Close menu" class="inline-flex items-center justify-center w-10 h-10 -mr-2 text-muted hover:text-ink transition-colors">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile">
+        <a href="srp.html" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Inventory</a>
+        <a href="srp.html" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Pre-Owned</a>
+        <a href="srp.html" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Car Finder</a>
+        <a href="#" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Finance Center</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors mt-1">Get Pre-Approved</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Tax ID/ITIN Financing</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Sell Your Car</a>
+        <a href="#" class="flex items-center gap-2 px-3 py-3 t-body font-medium text-blue rounded-md hover:bg-section transition-colors">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v10H1z"/><path d="M14 7h4l3 3v3h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17.5" cy="17" r="1.6"/></svg>
+          We Ship Nationwide
+        </a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">About Our Dealership</a>
+      </nav>
+      <div class="px-6 py-6 border-t border-border flex flex-col gap-3">
+        <a href="tel:+15167657222" class="btn btn--secondary btn--block">Call <span class="font-mono ml-1">516-765-7222</span></a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ============ PAGE HEAD ============ -->
+    <section class="bg-section border-b border-border">
+      <div class="container py-7 md:py-9">
+        <nav class="t-caption text-faint flex items-center gap-2" aria-label="Breadcrumb">
+          <a href="index.html" class="hover:text-blue transition-colors">Home</a>
+          <span>/</span>
+          <span class="text-muted">Inventory</span>
+        </nav>
+        <div class="flex flex-wrap items-end justify-between gap-4 mt-3">
+          <div>
+            <h1 class="t-h1">Pre-Owned Inventory</h1>
+            <p class="t-body-sm text-muted mt-1.5">Every vehicle inspected, reconditioned and ready to finance your way · <span class="text-blue font-medium">Ships nationwide</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SRP LAYOUT ============ -->
+    <section class="container py-8 md:py-12">
+      <div class="grid lg:grid-cols-[300px_1fr] gap-8 lg:gap-10 items-start">
+
+        <!-- ---- FILTERS (sidebar / mobile drawer) ---- -->
+        <aside id="filters" class="lg:sticky lg:top-24" aria-label="Filter inventory">
+          <div data-filters-close class="filters__overlay"></div>
+          <div class="filters__panel bg-surface border border-border rounded-md shadow-sm">
+            <!-- panel header -->
+            <div class="flex items-center justify-between px-5 py-4 border-b border-border">
+              <div class="t-h4">Filters</div>
+              <div class="flex items-center gap-2">
+                <button type="button" data-clear-filters class="btn btn--link t-body-sm">Clear all</button>
+                <button type="button" data-filters-close aria-label="Close filters" class="lg:hidden inline-flex items-center justify-center w-9 h-9 -mr-2 text-muted hover:text-ink transition-colors">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="p-5 flex flex-col gap-6">
+              <!-- Search by keyword -->
+              <div class="field">
+                <label class="t-label" for="f-kw">Search by keyword</label>
+                <div class="relative">
+                  <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-faint pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input id="f-kw" class="ctrl pl-10" placeholder="e.g. F-150, AWD, Lexus…" />
+                </div>
+              </div>
+
+              <!-- Year -->
+              <div class="field">
+                <label class="t-label">Year</label>
+                <div class="grid grid-cols-2 gap-3">
+                  <select id="f-year-min" class="ctrl" aria-label="Year from"><option value="">From</option></select>
+                  <select id="f-year-max" class="ctrl" aria-label="Year to"><option value="">To</option></select>
+                </div>
+              </div>
+
+              <!-- Make -->
+              <div class="field">
+                <label class="t-label" for="f-make">Make</label>
+                <select id="f-make" class="ctrl"><option value="">Any make</option></select>
+              </div>
+
+              <!-- Model -->
+              <div class="field">
+                <label class="t-label" for="f-model">Model</label>
+                <select id="f-model" class="ctrl" disabled><option value="">Any model</option></select>
+              </div>
+
+              <!-- Price -->
+              <div class="field">
+                <div class="flex items-center justify-between">
+                  <label class="t-label">Price</label>
+                  <span class="t-caption text-muted font-mono"><span data-range-min-label="price">$0</span> – <span data-range-max-label="price">$100k+</span></span>
+                </div>
+                <div class="range mt-1.5" data-range="price" data-min="0" data-max="100000" data-step="1000" data-format="money">
+                  <div class="range__track"></div>
+                  <div class="range__fill"></div>
+                  <input type="range" class="range__min" min="0" max="100000" step="1000" value="0" aria-label="Minimum price" />
+                  <input type="range" class="range__max" min="0" max="100000" step="1000" value="100000" aria-label="Maximum price" />
+                </div>
+              </div>
+
+              <!-- Mileage -->
+              <div class="field">
+                <div class="flex items-center justify-between">
+                  <label class="t-label">Mileage</label>
+                  <span class="t-caption text-muted font-mono"><span data-range-min-label="miles">0</span> – <span data-range-max-label="miles">60k+</span> mi</span>
+                </div>
+                <div class="range mt-1.5" data-range="miles" data-min="0" data-max="60000" data-step="1000" data-format="miles">
+                  <div class="range__track"></div>
+                  <div class="range__fill"></div>
+                  <input type="range" class="range__min" min="0" max="60000" step="1000" value="0" aria-label="Minimum mileage" />
+                  <input type="range" class="range__max" min="0" max="60000" step="1000" value="60000" aria-label="Maximum mileage" />
+                </div>
+              </div>
+
+              <!-- Extended (collapsible) -->
+              <details class="border-t border-border pt-4 group" open>
+                <summary class="flex items-center justify-between cursor-pointer list-none">
+                  <span class="t-label">More filters</span>
+                  <svg class="w-4 h-4 text-faint transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+
+                <div class="flex flex-col gap-5 mt-5">
+                  <!-- Body style -->
+                  <div>
+                    <div class="t-label mb-2.5">Body style</div>
+                    <div class="flex flex-wrap gap-2" data-filter-group="body">
+                      <label class="chip"><input type="checkbox" value="SUV" class="sr-only" /><span>SUV</span></label>
+                      <label class="chip"><input type="checkbox" value="Sedan" class="sr-only" /><span>Sedan</span></label>
+                      <label class="chip"><input type="checkbox" value="Coupe" class="sr-only" /><span>Coupe</span></label>
+                      <label class="chip"><input type="checkbox" value="Truck" class="sr-only" /><span>Truck</span></label>
+                    </div>
+                  </div>
+                  <!-- Drivetrain -->
+                  <div>
+                    <div class="t-label mb-2.5">Drivetrain</div>
+                    <div class="flex flex-wrap gap-2" data-filter-group="drivetrain">
+                      <label class="chip"><input type="checkbox" value="AWD" class="sr-only" /><span>AWD</span></label>
+                      <label class="chip"><input type="checkbox" value="4WD" class="sr-only" /><span>4WD</span></label>
+                      <label class="chip"><input type="checkbox" value="FWD" class="sr-only" /><span>FWD</span></label>
+                      <label class="chip"><input type="checkbox" value="RWD" class="sr-only" /><span>RWD</span></label>
+                    </div>
+                  </div>
+                  <!-- Condition -->
+                  <div>
+                    <div class="t-label mb-2.5">Condition</div>
+                    <label class="flex items-center gap-2.5 cursor-pointer">
+                      <input type="checkbox" id="f-certified" class="w-4 h-4 accent-blue" />
+                      <span class="t-body-sm text-body">Certified Pre-Owned only</span>
+                    </label>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <!-- mobile apply bar -->
+            <div class="lg:hidden sticky bottom-0 bg-surface border-t border-border p-4">
+              <button type="button" data-filters-close class="btn btn--primary btn--block">Show <span data-result-count-inline>0</span> results</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ---- RESULTS ---- -->
+        <div>
+          <!-- toolbar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+            <div class="flex items-center gap-3">
+              <button type="button" data-filters-open class="btn btn--outline btn--sm lg:hidden">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+                Filters
+              </button>
+              <p class="t-body-sm text-muted"><span data-result-count class="t-h4 text-ink">0</span> vehicles</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="t-caption text-faint hidden sm:block" for="f-sort">Sort</label>
+              <select id="f-sort" class="ctrl !h-9 !w-auto t-body-sm">
+                <option value="relevance">Relevance</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="year-desc">Year: Newest</option>
+                <option value="miles-asc">Mileage: Lowest</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- active filter chips -->
+          <div data-active-chips class="flex flex-wrap gap-2 mb-5 empty:hidden"></div>
+
+          <!-- results grid -->
+          <div data-results class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3"></div>
+
+          <!-- empty state -->
+          <div data-empty class="hidden text-center py-20">
+            <svg class="w-12 h-12 mx-auto text-faint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <h3 class="t-h3 mt-4">No vehicles match your filters</h3>
+            <p class="t-body-sm text-muted mt-2">Try widening your price or mileage range, or clearing a filter.</p>
+            <button type="button" data-clear-filters class="btn btn--secondary mt-6">Clear all filters</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="text-white" style="background:
+            radial-gradient(55% 48% at 85% 3%, color-mix(in srgb, var(--color-cyan) 26%, transparent), transparent 55%),
+            radial-gradient(72% 62% at 4% 98%, color-mix(in srgb, var(--color-blue) 70%, transparent), transparent 58%),
+            radial-gradient(48% 44% at 58% 118%, color-mix(in srgb, var(--color-cyan) 22%, transparent), transparent 60%),
+            linear-gradient(155deg, #0F2759 0%, #0F2759 42%, color-mix(in srgb, var(--color-blue) 70%, #0F2759) 100%);">
+    <div class="container pt-16 md:pt-20 pb-12 grid gap-10 lg:gap-8 sm:grid-cols-2 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-16 w-auto" />
+        <p class="t-body-sm text-white/60 mt-5 max-w-[34ch]">Pre-owned &amp; luxury vehicles, financed your way — including Tax ID / ITIN approvals. Woodbury, NY · Ships nationwide.</p>
+        <div class="flex items-center gap-3 mt-6">
+          <a href="#" aria-label="Instagram" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/15 text-white/80 hover:bg-cyan hover:text-navy hover:border-cyan transition"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="Facebook" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/15 text-white/80 hover:bg-cyan hover:text-navy hover:border-cyan transition"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h2.6l.4-3H13V9.2c0-.9.3-1.5 1.6-1.5H16V5.1C15.7 5.1 14.7 5 13.5 5 11 5 9.3 6.5 9.3 9v2H7v3h2.3v8H13z"/></svg></a>
+          <a href="#" aria-label="YouTube" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/15 text-white/80 hover:bg-cyan hover:text-navy hover:border-cyan transition"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.2a2.6 2.6 0 0 0-1.8-1.8C18.6 6 12 6 12 6s-6.6 0-8.2.4A2.6 2.6 0 0 0 2 8.2 27 27 0 0 0 1.7 12 27 27 0 0 0 2 15.8a2.6 2.6 0 0 0 1.8 1.8C5.4 18 12 18 12 18s6.6 0 8.2-.4a2.6 2.6 0 0 0 1.8-1.8A27 27 0 0 0 22.3 12 27 27 0 0 0 22 8.2zM10 15V9l5 3-5 3z"/></svg></a>
+        </div>
+      </div>
+      <nav class="lg:col-span-2" aria-label="Inventory">
+        <div class="t-eyebrow text-cyan">Our Inventory</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="srp.html" class="t-body-sm text-white/70 hover:text-white transition">Pre-Owned</a></li>
+          <li><a href="srp.html" class="t-body-sm text-white/70 hover:text-white transition">Certified Pre-Owned</a></li>
+          <li><a href="srp.html" class="t-body-sm text-white/70 hover:text-white transition">Featured Vehicles</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Current Specials</a></li>
+        </ul>
+      </nav>
+      <nav class="lg:col-span-2" aria-label="Service & Parts">
+        <div class="t-eyebrow text-cyan">Service &amp; Parts</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Service Specials</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Parts Specials</a></li>
+        </ul>
+      </nav>
+      <nav class="lg:col-span-2" aria-label="Finance Center">
+        <div class="t-eyebrow text-cyan">Finance Center</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Finance Application</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Payment Calculator</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Value Your Trade</a></li>
+        </ul>
+      </nav>
+      <nav class="lg:col-span-2" aria-label="Our Dealership">
+        <div class="t-eyebrow text-cyan">Our Dealership</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Contact Us</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Directions</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Our Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="t-caption text-white/55">© 2026 Drive Max USA. All rights reserved. · <a href="#" class="hover:text-white transition">Privacy Policy</a> · <a href="#" class="hover:text-white transition">Sitemap</a></div>
+        <div class="t-caption text-white/40">Powered by <a href="#" class="text-white/60 hover:text-white transition">All Auto Network</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/header.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/srp.js"></script>
+  <script src="js/cards.js"></script>
+</body>
+</html>

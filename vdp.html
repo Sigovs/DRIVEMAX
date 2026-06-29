@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2018 BMW X5 xDrive50i — Drive Max USA</title>
+  <meta name="description" content="2018 BMW X5 xDrive50i · 76,412 mi · $22,998 · No dealer fees. Financed your way — ITIN / Tax ID welcome. Woodbury, NY · Ships nationwide." />
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/hero/drivemax_new_logo.svg" type="image/svg+xml" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (CDN, no build) + token-driven config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind.config.js"></script>
+
+  <!-- Design tokens + components (single source of truth) -->
+  <link rel="stylesheet" href="css/tokens.css" />
+
+  <style>
+    /* ---- Solid header (no dark hero on this page) ---- */
+    #hdr { background: var(--color-base); border-bottom: 1px solid var(--color-border); }
+    #hdr.is-scrolled { box-shadow: var(--shadow-md); }
+    /* collapse header on scroll: shrink logo, tighten padding + gaps, contacts → icon-only */
+    #hdr .brand img { transition: height .3s ease; }
+    #hdr.is-scrolled .brand img { height: 44px; }
+    #hdr .container { transition: padding-top .3s ease, padding-bottom .3s ease; }
+    #hdr.is-scrolled .container { padding-top: 8px; padding-bottom: 8px; }
+    #hdr .hdr-right { transition: gap .3s ease; }
+    #hdr.is-scrolled .hdr-right { gap: 8px; }
+    #hdr .hdr-contact { transition: width .3s ease, padding .3s ease; }
+    #hdr.is-scrolled .hdr-label { display: none; }
+    #hdr.is-scrolled .hdr-contact { width: 30px; padding-inline: 0; gap: 0; }
+    #hdr .nav-link { color: var(--color-muted); transition: color .2s ease; }
+    #hdr .nav-link:hover { color: var(--color-blue); }
+    #hdr .burger { color: var(--color-ink); }
+    #hdr .hdr-contact { background: var(--color-blue); border-color: var(--color-blue); color: #fff; }
+    #hdr .hdr-contact:hover { background: var(--color-navy); border-color: var(--color-navy); color: #fff; }
+    #hdr .has-sub:hover .sub-menu,
+    #hdr .has-sub:focus-within .sub-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    #hdr .has-sub:hover .caret { transform: rotate(180deg); }
+
+    /* ---- Mobile nav drawer ---- */
+    #mobile-menu { transition: opacity .3s ease, visibility .3s ease; }
+    #mobile-menu.is-open { opacity: 1; visibility: visible; }
+    #mobile-menu .panel { transition: transform .35s cubic-bezier(.22,.7,.2,1); }
+    #mobile-menu.is-open .panel { transform: translateX(0); }
+    @media (prefers-reduced-motion: reduce) { #mobile-menu, #mobile-menu .panel { transition: none; } }
+
+    /* ---- Gallery thumbnails ---- */
+    .thumb { border: 2px solid transparent; opacity: .7; transition: opacity .15s, border-color .15s; }
+    .thumb:hover { opacity: 1; }
+    .thumb.is-active { opacity: 1; border-color: var(--color-blue); }
+
+    /* ---- Fullscreen lightbox ---- */
+    #lightbox { display: none; }
+    #lightbox.is-open { display: flex; }
+  </style>
+</head>
+
+<body class="font-sans text-body bg-base">
+
+  <!-- ============ HEADER ============ -->
+  <header id="hdr" class="sticky top-0 inset-x-0 z-50">
+    <div class="container flex items-center justify-between gap-8 py-4">
+      <a href="index.html" class="brand" aria-label="Drive Max USA — home">
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-14 md:h-16 w-auto" />
+      </a>
+      <div class="hdr-right flex flex-col items-end gap-4">
+        <div class="hidden sm:flex flex-wrap items-center justify-end gap-3">
+          <a href="tel:+15167657222" class="btn btn--xs hdr-contact">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span class="hdr-label">Call Us: <span class="font-mono">516-765-7222</span></span>
+          </a>
+          <a href="#" class="btn btn--xs hdr-contact">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span class="hdr-label">Woodbury, NY</span>
+          </a>
+        </div>
+        <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
+          <div class="has-sub relative">
+            <a href="srp.html" class="nav-link t-body-sm font-medium inline-flex items-center gap-1">
+              Inventory
+              <svg class="caret w-3 h-3 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </a>
+            <div class="sub-menu invisible opacity-0 translate-y-1 transition-all duration-200 absolute left-0 top-full pt-4">
+              <div class="min-w-[210px] bg-surface border border-border rounded-md shadow-md py-2">
+                <a href="srp.html" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Pre-Owned</a>
+                <a href="srp.html" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Car Finder</a>
+                <a href="#" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Finance Center</a>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="nav-link t-body-sm font-medium">Get Pre-Approved</a>
+          <a href="#" class="nav-link t-body-sm font-medium">Tax ID/ITIN Financing</a>
+          <a href="#" class="nav-link t-body-sm font-medium">Sell Your Car</a>
+          <a href="#" class="nav-link t-body-sm font-medium">We Ship Nationwide</a>
+          <a href="#" class="nav-link t-body-sm font-medium">About Our Dealership</a>
+        </nav>
+      </div>
+      <button type="button" data-menu-open aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false"
+              class="burger lg:hidden inline-flex items-center justify-center w-11 h-11 -mr-2">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ MOBILE DRAWER (nav) ============ -->
+  <div id="mobile-menu" class="lg:hidden fixed inset-0 z-[60] invisible opacity-0" role="dialog" aria-modal="true" aria-label="Menu">
+    <div data-menu-close class="absolute inset-0 bg-ink/60" style="backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);"></div>
+    <div class="panel absolute top-0 right-0 h-full w-[86%] max-w-[360px] bg-base shadow-lg translate-x-full flex flex-col">
+      <div class="flex items-center justify-between px-6 h-[72px] border-b border-border">
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-12 w-auto" />
+        <button type="button" data-menu-close aria-label="Close menu" class="inline-flex items-center justify-center w-10 h-10 -mr-2 text-muted hover:text-ink transition-colors">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile">
+        <a href="srp.html" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Inventory</a>
+        <a href="srp.html" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Pre-Owned</a>
+        <a href="srp.html" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Car Finder</a>
+        <a href="#" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Finance Center</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors mt-1">Get Pre-Approved</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Tax ID/ITIN Financing</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Sell Your Car</a>
+        <a href="#" class="flex items-center gap-2 px-3 py-3 t-body font-medium text-blue rounded-md hover:bg-section transition-colors">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v10H1z"/><path d="M14 7h4l3 3v3h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17.5" cy="17" r="1.6"/></svg>
+          We Ship Nationwide
+        </a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">About Our Dealership</a>
+      </nav>
+      <div class="px-6 py-6 border-t border-border flex flex-col gap-3">
+        <a href="tel:+15167657222" class="btn btn--secondary btn--block">Call <span class="font-mono ml-1">516-765-7222</span></a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ============ BREADCRUMB + TITLE ============ -->
+    <section class="container pt-8 md:pt-12">
+      <nav class="t-caption text-faint flex flex-wrap items-center gap-2" aria-label="Breadcrumb">
+        <a href="index.html" class="hover:text-blue transition-colors">Home</a>
+        <span>/</span>
+        <a href="srp.html" class="hover:text-blue transition-colors">Inventory</a>
+        <span>/</span>
+        <span class="text-muted">2018 BMW X5 xDrive50i</span>
+      </nav>
+
+      <div class="flex flex-wrap items-start justify-between gap-4 mt-5">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <span class="badge badge--blue">Luxury</span>
+            <span class="badge badge--success">No Dealer Fees</span>
+            <span class="badge badge--neutral font-mono">Stock&nbsp;#1007BH</span>
+          </div>
+          <h1 class="t-h1">2018 BMW X5 <span class="text-blue">xDrive50i</span></h1>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 t-body-sm text-muted">
+            <span class="font-mono">76,412 mi</span><span>·</span>
+            <span>AWD (xDrive)</span><span>·</span>
+            <span>4.4L Twin-Turbo V8</span><span>·</span>
+            <span>8-Speed Automatic</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MAIN GRID ============ -->
+    <section class="container pt-8 md:pt-10 pb-14 md:pb-20">
+      <div class="grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-14 items-start">
+
+        <!-- ---- LEFT: gallery + details ---- -->
+        <div>
+          <!-- gallery -->
+          <div>
+            <div class="group relative rounded-lg overflow-hidden border border-border bg-section aspect-[16/10]">
+              <button type="button" data-gallery-open class="absolute inset-0 w-full h-full cursor-zoom-in" aria-label="View fullscreen">
+                <img id="gallery-main" src="images/vehicles/photos/x5/x5-01.jpg" alt="2018 BMW X5 xDrive50i" class="w-full h-full object-cover" />
+              </button>
+              <span class="badge badge--blue absolute top-4 left-4 pointer-events-none">Luxury</span>
+              <span class="badge badge--neutral absolute top-4 right-4 font-mono pointer-events-none"><span id="gallery-index">1</span> / 13</span>
+              <!-- prev / next -->
+              <button type="button" data-gallery-prev aria-label="Previous photo" class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-full bg-ink/55 text-white backdrop-blur-sm transition hover:bg-ink/75 md:opacity-0 md:group-hover:opacity-100">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button type="button" data-gallery-next aria-label="Next photo" class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-11 h-11 rounded-full bg-ink/55 text-white backdrop-blur-sm transition hover:bg-ink/75 md:opacity-0 md:group-hover:opacity-100">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+              <!-- fullscreen -->
+              <button type="button" data-gallery-open aria-label="View fullscreen" class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 h-9 rounded-md bg-ink/55 text-white t-caption font-semibold backdrop-blur-sm transition hover:bg-ink/75">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                Fullscreen
+              </button>
+            </div>
+            <!-- thumbnails -->
+            <div class="grid grid-cols-5 sm:grid-cols-7 gap-2.5 mt-3">
+              <button type="button" class="thumb is-active rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-01.jpg"><img src="images/vehicles/photos/x5/x5-01.jpg" alt="View 1" class="w-full h-full object-cover" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-02.jpg"><img src="images/vehicles/photos/x5/x5-02.jpg" alt="View 2" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-03.jpg"><img src="images/vehicles/photos/x5/x5-03.jpg" alt="View 3" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-04.jpg"><img src="images/vehicles/photos/x5/x5-04.jpg" alt="View 4" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-05.jpg"><img src="images/vehicles/photos/x5/x5-05.jpg" alt="View 5" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-06.jpg"><img src="images/vehicles/photos/x5/x5-06.jpg" alt="View 6" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-07.jpg"><img src="images/vehicles/photos/x5/x5-07.jpg" alt="View 7" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-08.jpg"><img src="images/vehicles/photos/x5/x5-08.jpg" alt="View 8" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-09.jpg"><img src="images/vehicles/photos/x5/x5-09.jpg" alt="View 9" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-10.jpg"><img src="images/vehicles/photos/x5/x5-10.jpg" alt="View 10" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-11.jpg"><img src="images/vehicles/photos/x5/x5-11.jpg" alt="View 11" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-12.jpg"><img src="images/vehicles/photos/x5/x5-12.jpg" alt="View 12" class="w-full h-full object-cover" loading="lazy" /></button>
+              <button type="button" class="thumb rounded-md overflow-hidden aspect-[4/3]" data-thumb="images/vehicles/photos/x5/x5-13.jpg"><img src="images/vehicles/photos/x5/x5-13.jpg" alt="View 13" class="w-full h-full object-cover" loading="lazy" /></button>
+            </div>
+          </div>
+
+          <!-- key specs -->
+          <div class="mt-10 md:mt-12">
+            <h2 class="t-h3 mb-5">Vehicle highlights</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-border border border-border rounded-md overflow-hidden">
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Mileage</div><div class="t-data text-ink mt-1">76,412 mi</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Drivetrain</div><div class="t-data text-ink mt-1">AWD (xDrive)</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Transmission</div><div class="t-data text-ink mt-1">8-Speed Automatic</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Engine</div><div class="t-data text-ink mt-1">4.4L Twin-Turbo V8</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Fuel economy</div><div class="t-data text-ink mt-1">15 / 21 mpg</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Body style</div><div class="t-data text-ink mt-1">SUV</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Exterior</div><div class="t-data text-ink mt-1">Gray</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">Interior</div><div class="t-data text-ink mt-1">Orange</div></div>
+              <div class="bg-surface p-4"><div class="t-caption text-faint">VIN</div><div class="t-data text-ink mt-1">5UXKR6C53J0U15242</div></div>
+            </div>
+          </div>
+
+          <!-- TABS: Description / Premium Options / Contact -->
+          <div class="mt-12 md:mt-16" data-tabs>
+            <div class="tabs !justify-start" role="tablist" aria-label="Vehicle details">
+              <button class="tab" role="tab" id="tab-desc" aria-controls="panel-desc" aria-selected="true">Description</button>
+              <button class="tab" role="tab" id="tab-options" aria-controls="panel-options" aria-selected="false">Premium Options</button>
+              <button class="tab" role="tab" id="tab-contact" aria-controls="panel-contact" aria-selected="false">Contact</button>
+            </div>
+
+            <div class="pt-8 md:pt-10">
+              <!-- Description -->
+              <div id="panel-desc" role="tabpanel" aria-labelledby="tab-desc">
+                <div class="max-w-[680px] flex flex-col gap-4">
+                  <p class="t-body text-body">This <strong>2018 BMW X5 xDrive50i</strong> is a striking luxury performance SUV finished in Gray over a bold Orange leather interior. Under the hood is a potent <strong>4.4L Twin-Turbo V8</strong> paired with a smooth 8-speed automatic and BMW's legendary xDrive all-wheel drive — delivering effortless power and all-season confidence.</p>
+                  <p class="t-body text-body">Loaded with premium equipment including a panoramic sunroof, 16-speaker audio, Bi-Xenon headlights and a full suite of parking aids, this X5 has been thoroughly inspected and reconditioned. With 76,412 miles and <strong>no dealer fees — the price you see is the price you pay</strong> — it's backed by financing built around you, including Tax ID / ITIN approvals with no SSN or DOB required.</p>
+                  <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2.5 list-none p-0 m-0 mt-2">
+                    <li class="flex items-center gap-2.5"><svg class="w-4 h-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Multi-point inspected &amp; reconditioned</span></li>
+                    <li class="flex items-center gap-2.5"><svg class="w-4 h-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">No dealer fees</span></li>
+                    <li class="flex items-center gap-2.5"><svg class="w-4 h-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Eligible for lifetime warranty</span></li>
+                    <li class="flex items-center gap-2.5"><svg class="w-4 h-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Nationwide delivery available</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Premium Options -->
+              <div id="panel-options" role="tabpanel" aria-labelledby="tab-options" hidden>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3">
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Panoramic Sunroof</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">xDrive All-Wheel Drive</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">16-Speaker Premium Audio</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Bi-Xenon HID Headlights</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">LED Fog &amp; Daytime Running Lights</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Rear Camera</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Front &amp; Rear Parking Sensors</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">14-Way Power Front Seats</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Memory Seats &amp; Mirrors</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">4-Zone Automatic Climate Control</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Power Liftgate</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Heated Power-Folding Mirrors</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Leather Sport Steering Wheel</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Keyless Entry &amp; Start</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Auto-Dimming Rearview Mirror</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Voice-Activated Controls</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Electronic Parking Brake</span></div>
+                  <div class="flex items-center gap-2.5 py-1"><svg class="w-4 h-4 shrink-0 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="t-body-sm">Deep-Tinted Privacy Glass</span></div>
+                </div>
+              </div>
+
+              <!-- Contact -->
+              <div id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" hidden>
+                <form class="max-w-[620px] flex flex-col gap-4">
+                  <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="field"><label class="t-label" for="c-first">First name <span class="req">*</span></label><input id="c-first" class="ctrl" placeholder="Jane" /></div>
+                    <div class="field"><label class="t-label" for="c-last">Last name <span class="req">*</span></label><input id="c-last" class="ctrl" placeholder="Doe" /></div>
+                  </div>
+                  <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="field"><label class="t-label" for="c-phone">Phone <span class="req">*</span></label><input id="c-phone" type="tel" class="ctrl" placeholder="(516) 555-0123" /></div>
+                    <div class="field"><label class="t-label" for="c-email">Email</label><input id="c-email" type="email" class="ctrl" placeholder="jane@email.com" /></div>
+                  </div>
+                  <div class="field"><label class="t-label" for="c-msg">Message</label><textarea id="c-msg" class="ctrl" rows="4">I'm interested in the 2018 BMW X5 xDrive50i (Stock #1007BH). Is it still available?</textarea></div>
+                  <button type="submit" class="btn btn--primary btn--block">Send message</button>
+                  <p class="t-caption text-faint">By submitting you agree to be contacted about this vehicle. No SSN or DOB required to get started.</p>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- payment calculator -->
+          <section class="mt-12 md:mt-16">
+            <h2 class="t-h3 mb-5">Estimate your payment</h2>
+            <div class="card card__body grid md:grid-cols-[1fr_auto] gap-6 md:gap-8 items-center" data-calc>
+              <div class="grid sm:grid-cols-2 gap-4 w-full">
+                <div class="field"><label class="t-label" for="calc-price">Vehicle price</label><input id="calc-price" class="ctrl font-mono" inputmode="numeric" value="$22,998" /></div>
+                <div class="field"><label class="t-label" for="calc-down">Down payment</label><input id="calc-down" class="ctrl font-mono" inputmode="numeric" value="$2,500" /></div>
+                <div class="field"><label class="t-label" for="calc-term">Term</label>
+                  <select id="calc-term" class="ctrl">
+                    <option value="36">36 months</option>
+                    <option value="48">48 months</option>
+                    <option value="60">60 months</option>
+                    <option value="72" selected>72 months</option>
+                    <option value="84">84 months</option>
+                  </select>
+                </div>
+                <div class="field"><label class="t-label" for="calc-apr">APR %</label><input id="calc-apr" class="ctrl font-mono" inputmode="decimal" value="7.9" /></div>
+              </div>
+              <div class="text-center md:text-right md:pl-8 md:border-l border-border shrink-0">
+                <div class="t-caption text-muted">Estimated</div>
+                <div class="t-display-l text-ink leading-none mt-1"><span data-calc-result>$358</span><span class="t-h4 text-muted font-display">/mo</span></div>
+                <a href="#" class="btn btn--primary mt-4 md:w-full">Get Pre-Approved</a>
+              </div>
+            </div>
+            <p class="t-caption text-faint mt-3">*Estimated payment for illustration only. Excludes tax, title, registration and dealer-installed options. On approved credit; actual terms may vary.</p>
+          </section>
+        </div>
+
+        <!-- ---- RIGHT: sticky pricing / CTA ---- -->
+        <aside class="lg:sticky lg:top-28 flex flex-col gap-6">
+          <!-- price card -->
+          <div class="card card__body">
+            <div class="flex items-center justify-between">
+              <div class="t-eyebrow text-blue">Drive Max Price</div>
+              <span class="badge badge--success">No dealer fees</span>
+            </div>
+            <div class="flex items-end gap-2 mt-1">
+              <div class="t-display-l text-ink">$22,998</div>
+            </div>
+            <div class="t-body-sm text-muted mt-1">Est. <span class="font-mono text-body">$358</span>/mo · 72 mo @ 7.9% APR with $2,500 down<sup>*</sup></div>
+
+            <div class="flex flex-col gap-3 mt-6">
+              <a href="#" class="btn btn--primary btn--lg btn--block">Get Pre-Approved
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+              <a href="#" class="btn btn--secondary btn--block">Check Availability</a>
+              <a href="#" class="btn btn--outline btn--block">Schedule Test Drive</a>
+            </div>
+
+            <p class="t-caption text-faint mt-4 inline-flex items-start gap-1.5">
+              <svg class="w-3.5 h-3.5 shrink-0 mt-0.5 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              ITIN / Tax ID financing welcome — no SSN or DOB required, no effect on your credit score.
+            </p>
+          </div>
+
+          <!-- Carfax -->
+          <div class="card card__body flex items-center justify-between gap-4">
+            <div>
+              <img src="images/brand/carfax.svg" alt="CARFAX" class="h-9 w-auto" />
+              <p class="t-caption text-muted mt-2">Free vehicle history report</p>
+            </div>
+            <a href="#" class="btn btn--outline btn--sm shrink-0">View Report</a>
+          </div>
+
+          <!-- quick actions (mirror header actions) -->
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" data-card-action="share" aria-label="Share this vehicle" class="btn btn--ghost btn--sm flex-col !h-auto py-3 gap-1.5">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>
+              <span data-label class="t-caption">Share</span>
+            </button>
+            <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--ghost btn--sm flex-col !h-auto py-3 gap-1.5">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+              <span data-label class="t-caption">Save</span>
+            </button>
+            <button type="button" data-card-action="send" aria-label="Text to phone" class="btn btn--ghost btn--sm flex-col !h-auto py-3 gap-1.5">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+              <span data-label class="t-caption">Text&nbsp;to&nbsp;phone</span>
+            </button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ SIMILAR VEHICLES ============ -->
+    <section class="bg-section pt-16 md:pt-20 pb-16 md:pb-24">
+      <div class="container">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <h2 class="t-h2">Similar vehicles</h2>
+          <a href="srp.html" class="btn btn--secondary">View all inventory</a>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+          <!-- Jeep Grand Cherokee -->
+          <a href="vdp.html" class="card group flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+            <div class="card__media relative overflow-hidden">
+              <img src="images/vehicles/photos/grand-cherokee.jpg" alt="2021 Jeep Grand Cherokee Laredo" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+              <span class="badge badge--success absolute top-3 left-3">Certified</span>
+              <span class="badge badge--neutral absolute top-3 right-3 font-mono">36,700 mi</span>
+            </div>
+            <div class="card__body flex flex-col flex-1">
+              <div class="flex items-center justify-between gap-2"><div class="t-eyebrow text-blue">Jeep</div><div class="t-caption text-faint font-mono">2021</div></div>
+              <h3 class="t-h4 mt-1.5 group-hover:text-blue transition-colors">Grand Cherokee Laredo</h3>
+              <div class="flex flex-wrap gap-x-3 gap-y-1 mt-3 t-caption text-muted"><span>Automatic</span><span>·</span><span>4WD</span><span>·</span><span>V6</span></div>
+              <div class="flex items-end justify-between gap-3 mt-5 pt-5 border-t border-border">
+                <div><div class="t-price">$30,640</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$469</span>/mo</div></div>
+                <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Volvo XC60 -->
+          <a href="vdp.html" class="card group flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+            <div class="card__media relative overflow-hidden">
+              <img src="images/vehicles/photos/volvo-xc60.jpg" alt="2021 Volvo XC60 Momentum" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" style="object-position:center 68%" loading="lazy" />
+              <span class="badge badge--success absolute top-3 left-3">Certified</span>
+              <span class="badge badge--neutral absolute top-3 right-3 font-mono">31,240 mi</span>
+            </div>
+            <div class="card__body flex flex-col flex-1">
+              <div class="flex items-center justify-between gap-2"><div class="t-eyebrow text-blue">Volvo</div><div class="t-caption text-faint font-mono">2021</div></div>
+              <h3 class="t-h4 mt-1.5 group-hover:text-blue transition-colors">XC60 Momentum</h3>
+              <div class="flex flex-wrap gap-x-3 gap-y-1 mt-3 t-caption text-muted"><span>Automatic</span><span>·</span><span>AWD</span><span>·</span><span>Turbo I4</span></div>
+              <div class="flex items-end justify-between gap-3 mt-5 pt-5 border-t border-border">
+                <div><div class="t-price">$29,900</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$455</span>/mo</div></div>
+                <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Audi Q5 -->
+          <a href="vdp.html" class="card group flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+            <div class="card__media relative overflow-hidden">
+              <img src="images/vehicles/photos/audi-q5.jpg" alt="2022 Audi Q5 Premium" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+              <span class="badge badge--success absolute top-3 left-3">Certified</span>
+              <span class="badge badge--neutral absolute top-3 right-3 font-mono">26,150 mi</span>
+            </div>
+            <div class="card__body flex flex-col flex-1">
+              <div class="flex items-center justify-between gap-2"><div class="t-eyebrow text-blue">Audi</div><div class="t-caption text-faint font-mono">2022</div></div>
+              <h3 class="t-h4 mt-1.5 group-hover:text-blue transition-colors">Q5 Premium</h3>
+              <div class="flex flex-wrap gap-x-3 gap-y-1 mt-3 t-caption text-muted"><span>Automatic</span><span>·</span><span>AWD</span><span>·</span><span>Turbo I4</span></div>
+              <div class="flex items-end justify-between gap-3 mt-5 pt-5 border-t border-border">
+                <div><div class="t-price">$37,400</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$569</span>/mo</div></div>
+                <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Lexus ES 350 -->
+          <a href="vdp.html" class="card group flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+            <div class="card__media relative overflow-hidden">
+              <img src="images/vehicles/photos/lexus-es.jpg" alt="2022 Lexus ES 350" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+              <span class="badge badge--blue absolute top-3 left-3">Luxury</span>
+              <span class="badge badge--neutral absolute top-3 right-3 font-mono">24,300 mi</span>
+            </div>
+            <div class="card__body flex flex-col flex-1">
+              <div class="flex items-center justify-between gap-2"><div class="t-eyebrow text-blue">Lexus</div><div class="t-caption text-faint font-mono">2022</div></div>
+              <h3 class="t-h4 mt-1.5 group-hover:text-blue transition-colors">ES 350</h3>
+              <div class="flex flex-wrap gap-x-3 gap-y-1 mt-3 t-caption text-muted"><span>Automatic</span><span>·</span><span>FWD</span><span>·</span><span>V6</span></div>
+              <div class="flex items-end justify-between gap-3 mt-5 pt-5 border-t border-border">
+                <div><div class="t-price">$35,900</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$549</span>/mo</div></div>
+                <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="text-white" style="background:
+            radial-gradient(55% 48% at 85% 3%, color-mix(in srgb, var(--color-cyan) 26%, transparent), transparent 55%),
+            radial-gradient(72% 62% at 4% 98%, color-mix(in srgb, var(--color-blue) 70%, transparent), transparent 58%),
+            radial-gradient(48% 44% at 58% 118%, color-mix(in srgb, var(--color-cyan) 22%, transparent), transparent 60%),
+            linear-gradient(155deg, #0F2759 0%, #0F2759 42%, color-mix(in srgb, var(--color-blue) 70%, #0F2759) 100%);">
+    <div class="container pt-16 md:pt-20 pb-12 grid gap-10 lg:gap-8 sm:grid-cols-2 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-16 w-auto" />
+        <p class="t-body-sm text-white/60 mt-5 max-w-[34ch]">Pre-owned &amp; luxury vehicles, financed your way — including Tax ID / ITIN approvals. Woodbury, NY · Ships nationwide.</p>
+        <div class="flex items-center gap-3 mt-6">
+          <a href="#" aria-label="Instagram" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/15 text-white/80 hover:bg-cyan hover:text-navy hover:border-cyan transition"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="Facebook" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/15 text-white/80 hover:bg-cyan hover:text-navy hover:border-cyan transition"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h2.6l.4-3H13V9.2c0-.9.3-1.5 1.6-1.5H16V5.1C15.7 5.1 14.7 5 13.5 5 11 5 9.3 6.5 9.3 9v2H7v3h2.3v8H13z"/></svg></a>
+          <a href="#" aria-label="YouTube" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/15 text-white/80 hover:bg-cyan hover:text-navy hover:border-cyan transition"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.2a2.6 2.6 0 0 0-1.8-1.8C18.6 6 12 6 12 6s-6.6 0-8.2.4A2.6 2.6 0 0 0 2 8.2 27 27 0 0 0 1.7 12 27 27 0 0 0 2 15.8a2.6 2.6 0 0 0 1.8 1.8C5.4 18 12 18 12 18s6.6 0 8.2-.4a2.6 2.6 0 0 0 1.8-1.8A27 27 0 0 0 22.3 12 27 27 0 0 0 22 8.2zM10 15V9l5 3-5 3z"/></svg></a>
+        </div>
+      </div>
+      <nav class="lg:col-span-2" aria-label="Inventory">
+        <div class="t-eyebrow text-cyan">Our Inventory</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="srp.html" class="t-body-sm text-white/70 hover:text-white transition">Pre-Owned</a></li>
+          <li><a href="srp.html" class="t-body-sm text-white/70 hover:text-white transition">Certified Pre-Owned</a></li>
+          <li><a href="srp.html" class="t-body-sm text-white/70 hover:text-white transition">Featured Vehicles</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Current Specials</a></li>
+        </ul>
+      </nav>
+      <nav class="lg:col-span-2" aria-label="Service & Parts">
+        <div class="t-eyebrow text-cyan">Service &amp; Parts</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Service Specials</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Parts Specials</a></li>
+        </ul>
+      </nav>
+      <nav class="lg:col-span-2" aria-label="Finance Center">
+        <div class="t-eyebrow text-cyan">Finance Center</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Finance Application</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Payment Calculator</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Value Your Trade</a></li>
+        </ul>
+      </nav>
+      <nav class="lg:col-span-2" aria-label="Our Dealership">
+        <div class="t-eyebrow text-cyan">Our Dealership</div>
+        <ul class="list-none p-0 mt-4 space-y-2.5">
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Contact Us</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Directions</a></li>
+          <li><a href="#" class="t-body-sm text-white/70 hover:text-white transition">Our Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="t-caption text-white/55">© 2026 Drive Max USA. All rights reserved. · <a href="#" class="hover:text-white transition">Privacy Policy</a> · <a href="#" class="hover:text-white transition">Sitemap</a></div>
+        <div class="t-caption text-white/40">Powered by <a href="#" class="text-white/60 hover:text-white transition">All Auto Network</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ FULLSCREEN LIGHTBOX ============ -->
+  <div id="lightbox" class="fixed inset-0 z-[70] items-center justify-center bg-ink/90 select-none" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button type="button" data-gallery-close aria-label="Close" class="absolute top-4 right-4 inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <button type="button" data-gallery-prev aria-label="Previous photo" class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <img id="lightbox-img" src="images/vehicles/photos/x5/x5-01.jpg" alt="2018 BMW X5 xDrive50i" class="max-w-[92vw] max-h-[86vh] object-contain rounded-md shadow-lg" />
+    <button type="button" data-gallery-next aria-label="Next photo" class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-white/80 text-sm"><span id="lightbox-index">1</span> / 13</div>
+  </div>
+
+  <script src="js/header.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/tabs.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/vdp.js"></script>
+</body>
+</html>

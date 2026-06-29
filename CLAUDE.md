@@ -10,14 +10,23 @@ We reuse the *meaning/structure* of the old site's sections — never its visual
 ## File tree
 ```
 index.html              ← Home page
+srp.html                ← Search results page (inventory + filter sidebar)
+vdp.html                ← Vehicle detail page (gallery, tabs, pricing, Carfax)
 design.html             ← Design-system reference (colors, type, components)
 css/
   tokens.css            ← SINGLE SOURCE OF TRUTH (tokens + type + components)
 js/
   tailwind.config.js    ← Tailwind CDN config (maps tokens → utilities)
+  header.js             ← transparent header → solid on scroll
+  menu.js               ← mobile drawer (burger) open/close
+  tabs.js               ← accessible search tabs
+  carousel.js           ← featured-inventory arrow scroller
+  cards.js              ← inventory-card quick actions (Save / Send to phone / Share)
+  srp.js                ← SRP inventory data + client-side filter/sort/render
+  vdp.js                ← VDP gallery (thumbnail → main image swap)
   reveal.js             ← tiny scroll-reveal (vanilla, no deps)
 images/
-  hero/  vehicles/  icons/   ← drop images here, reference as /images/...
+  hero/  vehicles/  brand/(carfax.svg)  ← drop images here, reference as /images/...
 CLAUDE.md
 ```
 
@@ -38,7 +47,7 @@ All design decisions live here as CSS variables: colors, type scale, radius, sha
 
 ### Token-driven classes (defined in tokens.css)
 - **Typography (role-based):** `.t-display-xl .t-display-l .t-h1 .t-h2 .t-h3 .t-h4 .t-eyebrow .t-lead .t-body .t-body-sm .t-caption .t-label .t-button .t-price .t-data` — each carries the exact font/size(clamp)/line-height/letter-spacing/weight from the type scale.
-- **Buttons:** `.btn` + `.btn--primary|secondary|outline|ghost|danger|link` + `.btn--sm|lg|block`. Amber `.btn--primary` = primary CTA ONLY.
+- **Buttons:** `.btn` + `.btn--primary|secondary|outline|ghost|danger|link` + `.btn--xs|sm|lg|block`. Amber `.btn--primary` = primary CTA ONLY. Solid-blue actions use `.btn--secondary` (= `--color-blue`) — do NOT hardcode hex.
 - **Forms:** `.field`, `.ctrl` (inputs/select/textarea — tighter `--radius-field: 8px`).
 - **Badges:** `.badge` + `.badge--neutral|blue|success|danger|warning`.
 - **Cards:** `.card`, `.card__media`, `.card__body`.
@@ -46,7 +55,7 @@ All design decisions live here as CSS variables: colors, type scale, radius, sha
 - **Reveal:** add `data-reveal` (+ optional `data-reveal-delay="0.1"`) to animate in on scroll.
 
 ## Design rules (locked)
-- Palette: light automotive — white/off-white surfaces; logo blues (navy `#1C1F53` / blue `#2A4FA2` / cyan `#4CB8E9`) as ACCENTS, not fills; **amber `#F5A623` = primary CTA only**.
+- Palette: light automotive — white/off-white surfaces; logo blues (navy `#1C1F53` / blue `#2B55A5` / cyan `#4CB8E9`) as ACCENTS, not fills; **amber `#F5A623` = primary CTA only**. Blue is `--color-blue` (`#2B55A5`) — the single source of truth; never hardcode a near-blue hex.
 - Mood: clean / modern light.
 - Do NOT use colors from the client reference screenshots — they were pattern refs only.
 - Fonts: Sora / Inter / JetBrains Mono per the type scale.

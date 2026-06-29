@@ -170,6 +170,13 @@ textarea.ctrl { height: auto; min-height: 96px; padding-block: 10px; resize: ver
 .card__media { aspect-ratio: 16 / 9; background: var(--color-section); }
 .card__body { padding: 20px; }
 
+/* card quick-actions (Save / Send to phone) — sit inside the card link;
+   js/cards.js stops them from triggering card navigation. */
+[data-card-action] svg { transition: fill .15s, color .15s; }
+[data-card-action="save"][aria-pressed="true"] { color: var(--color-blue); border-color: color-mix(in srgb, var(--color-blue) 45%, transparent); background: var(--color-blue-soft); }
+[data-card-action="save"][aria-pressed="true"] svg { fill: currentColor; }
+[data-card-action].is-done { color: var(--color-success); border-color: color-mix(in srgb, var(--color-success) 45%, transparent); }
+
 /* ============================================================
    TABS
    ============================================================ */

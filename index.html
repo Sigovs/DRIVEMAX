@@ -6,6 +6,9 @@
   <title>Drive Max USA — Pre-Owned & Luxury Vehicles, Financed Your Way</title>
   <meta name="description" content="Pre-owned & luxury vehicles, financed your way. Woodbury, NY. ITIN / Tax ID financing — no SSN or DOB required." />
 
+  <!-- Favicon -->
+  <link rel="icon" href="images/hero/drivemax_new_logo.svg" type="image/svg+xml" />
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,16 +36,17 @@
   <!-- Header: transparent over hero, solid colour on scroll -->
   <style>
     #hdr.is-scrolled { background: var(--color-base); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-md); }
-    /* solid cobalt-blue tag-button (header contacts + View all inventory): white text + icons */
-    .btn--cobalt, #hdr .hdr-contact { background: #2A4FA2; border-color: #2A4FA2; color: #fff; }
-    .btn--cobalt:hover, #hdr .hdr-contact:hover { background: #24468c; border-color: #24468c; color: #fff; }
+    /* solid blue tag-button (header contacts): white text + icons. Uses --color-blue token. */
+    #hdr .hdr-contact { background: var(--color-blue); border-color: var(--color-blue); color: #fff; }
+    #hdr .hdr-contact:hover { background: var(--color-navy); border-color: var(--color-navy); color: #fff; }
     /* on scroll: collapse contact tags to icon-only */
     #hdr .hdr-contact { transition: width .3s ease, padding .3s ease; }
     #hdr.is-scrolled .hdr-label { display: none; }
     #hdr.is-scrolled .hdr-contact { width: 30px; padding-inline: 0; gap: 0; }
     /* compact the header on scroll: smaller logo, tighter padding + row gap */
     #hdr .brand img { transition: height .3s ease; }
-    #hdr.is-scrolled .brand img { height: 64px; }
+    #hdr.is-scrolled .brand img { height: 56px; }
+    @media (min-width: 768px) { #hdr.is-scrolled .brand img { height: 72px; } }
     #hdr .container { transition: padding-top .3s ease, padding-bottom .3s ease; }
     #hdr.is-scrolled .container { padding-top: 12px; padding-bottom: 12px; }
     #hdr .hdr-right { transition: gap .3s ease; }
@@ -56,6 +60,15 @@
     #hdr .has-sub:hover .sub-menu,
     #hdr .has-sub:focus-within .sub-menu { opacity: 1; visibility: visible; transform: translateY(0); }
     #hdr .has-sub:hover .caret { transform: rotate(180deg); }
+    /* burger: white over hero, ink on scroll */
+    #hdr .burger { color: rgb(255 255 255 / 0.9); transition: color .2s ease; }
+    #hdr.is-scrolled .burger { color: var(--color-ink); }
+    /* mobile drawer: fade overlay + slide-in panel */
+    #mobile-menu { transition: opacity .3s ease, visibility .3s ease; }
+    #mobile-menu.is-open { opacity: 1; visibility: visible; }
+    #mobile-menu .panel { transition: transform .35s cubic-bezier(.22,.7,.2,1); }
+    #mobile-menu.is-open .panel { transform: translateX(0); }
+    @media (prefers-reduced-motion: reduce) { #mobile-menu, #mobile-menu .panel { transition: none; } }
     /* hero page-load: staircase slide-in from the left */
     @keyframes heroIn { from { opacity: 0; transform: translateX(-32px); } to { opacity: 1; transform: translateX(0); } }
     .hero-in { opacity: 0; animation: heroIn .7s cubic-bezier(.22,.7,.2,1) both; }
@@ -69,7 +82,7 @@
   <header id="hdr" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
     <div class="container flex items-center justify-between gap-8 py-6">
       <a href="/" class="brand" aria-label="Drive Max USA — home">
-        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-20 w-auto" />
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-16 md:h-24 w-auto" />
       </a>
 
       <div class="hdr-right flex flex-col items-end gap-8">
@@ -93,14 +106,14 @@
         <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
           <!-- Inventory + submenu -->
           <div class="has-sub relative">
-            <a href="#" class="nav-link t-body-sm font-medium inline-flex items-center gap-1">
+            <a href="srp.html" class="nav-link t-body-sm font-medium inline-flex items-center gap-1">
               Inventory
               <svg class="caret w-3 h-3 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </a>
             <div class="sub-menu invisible opacity-0 translate-y-1 transition-all duration-200 absolute left-0 top-full pt-4">
               <div class="min-w-[210px] bg-surface border border-border rounded-md shadow-md py-2">
-                <a href="#" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Pre-Owned</a>
-                <a href="#" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Car Finder</a>
+                <a href="srp.html" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Pre-Owned</a>
+                <a href="srp.html" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Car Finder</a>
                 <a href="#" class="block px-4 py-3 t-body-sm text-body hover:bg-section hover:text-blue transition-colors">Finance Center</a>
               </div>
             </div>
@@ -109,11 +122,49 @@
           <a href="#" class="nav-link t-body-sm font-medium">Get Pre-Approved</a>
           <a href="#" class="nav-link t-body-sm font-medium">Tax ID/ITIN Financing</a>
           <a href="#" class="nav-link t-body-sm font-medium">Sell Your Car</a>
+          <a href="#" class="nav-link t-body-sm font-medium">We Ship Nationwide</a>
           <a href="#" class="nav-link t-body-sm font-medium">About Our Dealership</a>
         </nav>
       </div>
+
+      <!-- burger (mobile/tablet only) -->
+      <button type="button" data-menu-open aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false"
+              class="burger lg:hidden inline-flex items-center justify-center w-11 h-11 -mr-2">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </header>
+
+  <!-- ============ MOBILE DRAWER ============ -->
+  <div id="mobile-menu" class="lg:hidden fixed inset-0 z-[60] invisible opacity-0" role="dialog" aria-modal="true" aria-label="Menu">
+    <div data-menu-close class="absolute inset-0 bg-ink/60" style="backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);"></div>
+    <div class="panel absolute top-0 right-0 h-full w-[86%] max-w-[360px] bg-base shadow-lg translate-x-full flex flex-col">
+      <div class="flex items-center justify-between px-6 h-[72px] border-b border-border">
+        <img src="images/hero/drivemax_new_logo.svg" alt="Drive Max USA" class="h-12 w-auto" />
+        <button type="button" data-menu-close aria-label="Close menu" class="inline-flex items-center justify-center w-10 h-10 -mr-2 text-muted hover:text-ink transition-colors">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile">
+        <a href="srp.html" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Inventory</a>
+        <a href="srp.html" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Pre-Owned</a>
+        <a href="srp.html" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Car Finder</a>
+        <a href="#" class="block px-6 py-2.5 t-body-sm text-muted rounded-md hover:bg-section hover:text-blue transition-colors">Finance Center</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors mt-1">Get Pre-Approved</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Tax ID/ITIN Financing</a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">Sell Your Car</a>
+        <a href="#" class="flex items-center gap-2 px-3 py-3 t-body font-medium text-blue rounded-md hover:bg-section transition-colors">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v10H1z"/><path d="M14 7h4l3 3v3h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17.5" cy="17" r="1.6"/></svg>
+          We Ship Nationwide
+        </a>
+        <a href="#" class="block px-3 py-3 t-body font-medium text-ink rounded-md hover:bg-section transition-colors">About Our Dealership</a>
+      </nav>
+      <div class="px-6 py-6 border-t border-border flex flex-col gap-3">
+        <a href="tel:+15167657222" class="btn btn--secondary btn--block">Call <span class="font-mono ml-1">516-765-7222</span></a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=760+Jericho+Tpke,+Woodbury,+NY+11797" target="_blank" rel="noopener" class="t-caption text-muted hover:text-blue transition-colors text-center">760 Jericho Tpke, Woodbury, NY 11797</a>
+      </div>
+    </div>
+  </div>
 
   <main>
     <!-- ============ HERO (full-screen image) ============ -->
@@ -124,7 +175,13 @@
 
       <div class="container w-full pt-36 pb-16 md:pt-40 md:pb-20">
         <div class="max-w-[680px]">
-          <div class="hero-in t-eyebrow text-cyan" style="animation-delay:.05s">Woodbury, NY · 500+ vehicles in stock</div>
+          <div class="hero-in flex flex-wrap items-center gap-x-4 gap-y-2" style="animation-delay:.05s">
+            <span class="t-eyebrow text-cyan">Woodbury, NY · 500+ vehicles in stock</span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 t-caption font-semibold text-white">
+              <svg class="w-3.5 h-3.5 text-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v10H1z"/><path d="M14 7h4l3 3v3h-7z"/><circle cx="6" cy="17" r="1.6"/><circle cx="17.5" cy="17" r="1.6"/></svg>
+              Ships nationwide
+            </span>
+          </div>
           <h1 class="hero-in t-display-xl text-white mt-4" style="animation-delay:.15s">Find your next car,<br /><span class="text-cyan">financed your way.</span></h1>
           <p class="hero-in t-lead text-white/80 mt-6 max-w-[40ch]" style="animation-delay:.28s">Pre-owned &amp; luxury vehicles with financing built around you — not your credit score.</p>
 
@@ -238,7 +295,7 @@
               <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">BMW</span><span class="t-data text-faint">14</span></a>
               <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Mercedes-Benz</span><span class="t-data text-faint">12</span></a>
               <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-body">Lexus</span><span class="t-data text-faint">9</span></a>
-              <a href="#" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-blue">View all makes →</span></a>
+              <a href="srp.html" class="inline-flex items-center gap-2 px-4 py-3 bg-surface border border-border rounded-full hover:border-blue/40 transition-colors"><span class="t-body-sm font-medium text-blue">View all makes →</span></a>
             </div>
           </div>
 
@@ -247,7 +304,7 @@
             <div class="max-w-[640px] mx-auto">
               <form class="flex flex-col sm:flex-row gap-3">
                 <input class="ctrl" placeholder="Search make, model or keyword — e.g. F-150, AWD, low miles" aria-label="Keyword" />
-                <button type="submit" class="btn btn--cobalt">Search</button>
+                <button type="submit" class="btn btn--secondary">Search</button>
               </form>
               <div class="flex flex-wrap justify-center gap-2 mt-5">
                 <span class="t-caption text-faint mr-1">Popular:</span>
@@ -332,7 +389,7 @@
             <p class="t-lead text-muted mt-4" data-reveal data-reveal-delay="0.2">Hand-picked from 500+ in stock — every one inspected, reconditioned and ready to finance your way.</p>
           </div>
           <div class="flex items-center gap-3 shrink-0" data-reveal data-reveal-delay="0.3">
-            <a href="#" class="btn btn--cobalt">View all inventory</a>
+            <a href="srp.html" class="btn btn--secondary">View all inventory</a>
             <div class="flex gap-2">
               <button type="button" data-carousel-prev aria-label="Previous vehicles" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-surface border border-border text-body transition hover:border-blue/40 hover:text-blue disabled:opacity-40 disabled:pointer-events-none">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -350,8 +407,36 @@
         <div data-carousel-track class="no-scrollbar flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pt-3 pb-10"
              style="padding-inline: var(--gutter); scroll-padding-left: var(--gutter);">
 
-          <!-- 1 · Ford Explorer -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <!-- 1 · BMW X5 -->
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+            <div class="card__media relative overflow-hidden">
+              <img src="images/vehicles/photos/x5/x5-01.jpg" alt="2018 BMW X5 xDrive50i" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
+              <span class="badge badge--blue absolute top-3 left-3">Luxury</span>
+              <span class="badge badge--neutral absolute top-3 right-3 font-mono">76,412 mi</span>
+            </div>
+            <div class="card__body flex flex-col flex-1">
+              <div class="flex items-center justify-between gap-2"><div class="t-eyebrow text-blue">BMW</div><div class="t-caption text-faint font-mono">2018</div></div>
+              <h3 class="t-h4 mt-1.5 group-hover:text-blue transition-colors">X5 xDrive50i</h3>
+              <div class="flex flex-wrap gap-x-3 gap-y-1 mt-3 t-caption text-muted"><span>Automatic</span><span>·</span><span>AWD</span><span>·</span><span>Twin-Turbo V8</span></div>
+              <div class="flex items-end justify-between gap-3 mt-5 pt-5 border-t border-border">
+                <div><div class="t-price">$22,998</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$358</span>/mo</div></div>
+                <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 2 · Ford Explorer -->
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/explorer.jpg" alt="2022 Ford Explorer XLT 4WD" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
               <span class="badge badge--success absolute top-3 left-3">Certified</span>
@@ -365,11 +450,21 @@
                 <div><div class="t-price">$31,995</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$489</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 2 · Toyota Camry -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/camry.jpg" alt="2023 Toyota Camry SE" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
               <span class="badge badge--warning absolute top-3 left-3">Price drop</span>
@@ -383,11 +478,21 @@
                 <div><div class="t-price">$26,480</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$399</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 3 · Mercedes-Benz C 300 -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/c300.jpg" alt="2021 Mercedes-Benz C 300 4MATIC" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
               <span class="badge badge--blue absolute top-3 left-3">Luxury</span>
@@ -401,11 +506,21 @@
                 <div><div class="t-price">$33,750</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$515</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 4 · Volvo XC60 -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/volvo-xc60.jpg" alt="2021 Volvo XC60 Momentum" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" style="object-position:center 68%" loading="lazy" />
               <span class="badge badge--success absolute top-3 left-3">Certified</span>
@@ -419,11 +534,21 @@
                 <div><div class="t-price">$29,900</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$455</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 5 · BMW M3 -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/bmw-m3.jpg" alt="2020 BMW M3 Sedan" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" style="object-position:center 70%" loading="lazy" />
               <span class="badge badge--blue absolute top-3 left-3">Performance</span>
@@ -437,11 +562,21 @@
                 <div><div class="t-price">$44,800</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$679</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 6 · Ford F-250 -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/ford-f250.jpg" alt="2022 Ford F-250 Super Duty XLT" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" style="object-position:center 70%" loading="lazy" />
               <span class="badge badge--neutral absolute top-3 left-3">4x4</span>
@@ -455,11 +590,21 @@
                 <div><div class="t-price">$48,250</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$735</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 7 · Maserati GranTurismo -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/blue-coupe.jpg" alt="2023 Maserati GranTurismo" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" style="object-position:center 66%" loading="lazy" />
               <span class="badge badge--blue absolute top-3 left-3">Luxury</span>
@@ -473,11 +618,21 @@
                 <div><div class="t-price">$89,500</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$1,299</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 8 · Jeep Grand Cherokee -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/grand-cherokee.jpg" alt="2021 Jeep Grand Cherokee Laredo" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
               <span class="badge badge--success absolute top-3 left-3">Certified</span>
@@ -491,11 +646,21 @@
                 <div><div class="t-price">$30,640</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$469</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 9 · Lexus ES 350 -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/lexus-es.jpg" alt="2022 Lexus ES 350" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
               <span class="badge badge--blue absolute top-3 left-3">Luxury</span>
@@ -509,11 +674,21 @@
                 <div><div class="t-price">$35,900</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$549</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
+              </div>
             </div>
           </a>
 
           <!-- 10 · Audi Q5 -->
-          <a href="#" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
+          <a href="vdp.html" data-card class="card group shrink-0 snap-start w-[82%] sm:w-[340px] lg:w-[384px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition">
             <div class="card__media relative overflow-hidden">
               <img src="images/vehicles/photos/audi-q5.jpg" alt="2022 Audi Q5 Premium" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />
               <span class="badge badge--success absolute top-3 left-3">Certified</span>
@@ -526,6 +701,16 @@
               <div class="flex items-end justify-between gap-3 mt-5 pt-5 border-t border-border">
                 <div><div class="t-price">$37,400</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$569</span>/mo</div></div>
                 <span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+              <div class="flex items-center gap-2 mt-3">
+                <button type="button" data-card-action="save" aria-pressed="false" aria-label="Save this vehicle" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                  <span data-label>Save</span>
+                </button>
+                <button type="button" data-card-action="send" aria-label="Send to phone" class="btn btn--outline btn--sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                  <span data-label>Send to phone</span>
+                </button>
               </div>
             </div>
           </a>
@@ -651,7 +836,7 @@
             </div>
             <div class="p-6 flex flex-col flex-1">
               <h3 class="t-h3">Lifetime Warranty</h3>
-              <p class="t-body-sm text-muted mt-2">Eligible vehicles include complimentary lifetime powertrain protection, providing added confidence long after you drive away.</p>
+              <p class="t-body-sm text-muted mt-2">Eligible vehicles may qualify for an available lifetime warranty, providing added confidence long after you drive away.</p>
 
               <!-- feature row -->
               <div class="grid grid-cols-3 divide-x divide-border border-y border-border my-6 py-4">
@@ -665,11 +850,11 @@
                 </div>
                 <div class="flex flex-col items-center text-center gap-2.5 px-2">
                   <svg class="w-5 h-5 text-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2a2 2 0 0 1-.6-1.4V5a2 2 0 0 1 2-2h6.9a2 2 0 0 1 1.4.6l7.5 7.5a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>
-                  <span class="t-caption text-muted">No Added Cost</span>
+                  <span class="t-caption text-muted">Available Coverage</span>
                 </div>
               </div>
 
-              <a href="#" class="btn btn--cobalt self-start">Learn More<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+              <a href="#" class="btn btn--secondary self-start">Learn More<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
           </article>
 
@@ -698,7 +883,7 @@
                 </div>
               </div>
 
-              <a href="#" class="btn btn--cobalt self-start">Explore Benefits<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+              <a href="#" class="btn btn--secondary self-start">Explore Benefits<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
           </article>
 
@@ -752,7 +937,7 @@
             <h2 class="t-display-l mt-3" data-reveal data-reveal-delay="0.1">Follow the journey</h2>
             <p class="t-lead text-muted mt-4" data-reveal data-reveal-delay="0.2">Fresh arrivals, happy owners and behind-the-scenes from the lot — every day on Instagram.</p>
           </div>
-          <a href="https://instagram.com/drivemaxusa" target="_blank" rel="noopener" class="btn btn--cobalt shrink-0" data-reveal data-reveal-delay="0.3">
+          <a href="https://instagram.com/drivemaxusa" target="_blank" rel="noopener" class="btn btn--secondary shrink-0" data-reveal data-reveal-delay="0.3">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
             Follow us
           </a>
@@ -960,8 +1145,10 @@
   </script>
 
   <script src="js/header.js"></script>
+  <script src="js/menu.js"></script>
   <script src="js/tabs.js"></script>
   <script src="js/carousel.js"></script>
+  <script src="js/cards.js"></script>
   <script src="js/reveal.js"></script>
 
   <!-- Paper Design mesh-gradient (CDN ESM, no build step) for the Certified Inventory panel -->
