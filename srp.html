@@ -73,22 +73,13 @@
     }
     .range input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--shadow-focus); }
 
-    /* ---- Filters sidebar / mobile drawer ---- */
-    @media (min-width: 1024px) {
-      /* sticky sidebar; tall filter sets scroll inside the panel */
-      #filters { position: sticky; top: 6rem; align-self: start; visibility: visible; opacity: 1; }
-      #filters .filters__overlay { display: none; }
-      #filters .filters__panel { transform: none; max-height: calc(100vh - 7rem); overflow-y: auto; }
-    }
-    @media (max-width: 1023px) {
-      #filters { position: fixed; inset: 0; z-index: 60; visibility: hidden; opacity: 0; transition: opacity .3s ease, visibility .3s ease; }
-      #filters.is-open { visibility: visible; opacity: 1; }
-      #filters .filters__overlay { position: absolute; inset: 0; background: rgb(16 15 19 / 0.6); }
-      #filters .filters__panel { position: absolute; top: 0; left: 0; height: 100%; width: 90%; max-width: 380px; overflow-y: auto; background: var(--color-base); transform: translateX(-100%); transition: transform .35s cubic-bezier(.22,.7,.2,1); }
-      #filters.is-open .filters__panel { transform: translateX(0); }
-    }
+    /* ---- Wider page on SRP so the 3-up tiles get larger (this page only) ---- */
+    .srp-page .container { max-width: 1360px; }
+
+    /* ---- Advanced filters disclosure caret ---- */
+    [data-advanced-toggle][aria-expanded="true"] [data-advanced-caret] { transform: rotate(180deg); }
     @media (prefers-reduced-motion: reduce) {
-      #mobile-menu, #mobile-menu .panel, #filters, #filters .filters__panel { transition: none; }
+      #mobile-menu, #mobile-menu .panel { transition: none; }
     }
 
     /* ---- Selectable chips (body style / drivetrain) ---- */
@@ -102,7 +93,7 @@
   </style>
 </head>
 
-<body class="font-sans text-body bg-base">
+<body class="srp-page font-sans text-body bg-base">
 
   <!-- ============ HEADER (solid, sticky) ============ -->
   <header id="hdr" class="sticky top-0 inset-x-0 z-50">
@@ -202,166 +193,132 @@
 
     <!-- ============ SRP LAYOUT ============ -->
     <section class="container py-8 md:py-12">
-      <div class="grid lg:grid-cols-[300px_1fr] gap-8 lg:gap-10 items-start">
 
-        <!-- ---- FILTERS (sidebar / mobile drawer) ---- -->
-        <aside id="filters" class="lg:sticky lg:top-24" aria-label="Filter inventory">
-          <div data-filters-close class="filters__overlay"></div>
-          <div class="filters__panel bg-surface border border-border rounded-md shadow-sm">
-            <!-- panel header -->
-            <div class="flex items-center justify-between px-5 py-4 border-b border-border">
-              <div class="t-h4">Filters</div>
-              <div class="flex items-center gap-2">
-                <button type="button" data-clear-filters class="btn btn--link t-body-sm">Clear all</button>
-                <button type="button" data-filters-close aria-label="Close filters" class="lg:hidden inline-flex items-center justify-center w-9 h-9 -mr-2 text-muted hover:text-ink transition-colors">
-                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
-                </button>
-              </div>
+      <!-- ---- KEYWORD SEARCH BAR (separate) ---- -->
+      <div class="relative mb-4">
+        <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-faint pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="f-kw" class="ctrl !h-[52px] pl-12 pr-4" placeholder="Search inventory — make, model, trim or keyword…" aria-label="Search by keyword" />
+      </div>
+
+      <!-- ---- TOP FILTER BAR ---- -->
+      <div id="filters" class="bg-surface border border-border rounded-md shadow-sm" aria-label="Filter inventory">
+        <!-- primary row -->
+        <div class="flex flex-wrap items-end gap-x-4 gap-y-4 p-4">
+          <!-- Year (slider) -->
+          <div class="field flex-1 min-w-[150px]">
+            <div class="flex items-center justify-between">
+              <label class="t-label">Year</label>
+              <span class="t-caption text-muted font-mono"><span data-range-min-label="year">2018</span>–<span data-range-max-label="year">2023</span></span>
             </div>
-
-            <div class="p-5 flex flex-col gap-6">
-              <!-- Search by keyword -->
-              <div class="field">
-                <label class="t-label" for="f-kw">Search by keyword</label>
-                <div class="relative">
-                  <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-faint pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  <input id="f-kw" class="ctrl pl-10" placeholder="e.g. F-150, AWD, Lexus…" />
-                </div>
-              </div>
-
-              <!-- Year -->
-              <div class="field">
-                <label class="t-label">Year</label>
-                <div class="grid grid-cols-2 gap-3">
-                  <select id="f-year-min" class="ctrl" aria-label="Year from"><option value="">From</option></select>
-                  <select id="f-year-max" class="ctrl" aria-label="Year to"><option value="">To</option></select>
-                </div>
-              </div>
-
-              <!-- Make -->
-              <div class="field">
-                <label class="t-label" for="f-make">Make</label>
-                <select id="f-make" class="ctrl"><option value="">Any make</option></select>
-              </div>
-
-              <!-- Model -->
-              <div class="field">
-                <label class="t-label" for="f-model">Model</label>
-                <select id="f-model" class="ctrl" disabled><option value="">Any model</option></select>
-              </div>
-
-              <!-- Price -->
-              <div class="field">
-                <div class="flex items-center justify-between">
-                  <label class="t-label">Price</label>
-                  <span class="t-caption text-muted font-mono"><span data-range-min-label="price">$0</span> – <span data-range-max-label="price">$100k+</span></span>
-                </div>
-                <div class="range mt-1.5" data-range="price" data-min="0" data-max="100000" data-step="1000" data-format="money">
-                  <div class="range__track"></div>
-                  <div class="range__fill"></div>
-                  <input type="range" class="range__min" min="0" max="100000" step="1000" value="0" aria-label="Minimum price" />
-                  <input type="range" class="range__max" min="0" max="100000" step="1000" value="100000" aria-label="Maximum price" />
-                </div>
-              </div>
-
-              <!-- Mileage -->
-              <div class="field">
-                <div class="flex items-center justify-between">
-                  <label class="t-label">Mileage</label>
-                  <span class="t-caption text-muted font-mono"><span data-range-min-label="miles">0</span> – <span data-range-max-label="miles">60k+</span> mi</span>
-                </div>
-                <div class="range mt-1.5" data-range="miles" data-min="0" data-max="60000" data-step="1000" data-format="miles">
-                  <div class="range__track"></div>
-                  <div class="range__fill"></div>
-                  <input type="range" class="range__min" min="0" max="60000" step="1000" value="0" aria-label="Minimum mileage" />
-                  <input type="range" class="range__max" min="0" max="60000" step="1000" value="60000" aria-label="Maximum mileage" />
-                </div>
-              </div>
-
-              <!-- Extended (collapsible) -->
-              <details class="border-t border-border pt-4 group" open>
-                <summary class="flex items-center justify-between cursor-pointer list-none">
-                  <span class="t-label">More filters</span>
-                  <svg class="w-4 h-4 text-faint transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-
-                <div class="flex flex-col gap-5 mt-5">
-                  <!-- Body style -->
-                  <div>
-                    <div class="t-label mb-2.5">Body style</div>
-                    <div class="flex flex-wrap gap-2" data-filter-group="body">
-                      <label class="chip"><input type="checkbox" value="SUV" class="sr-only" /><span>SUV</span></label>
-                      <label class="chip"><input type="checkbox" value="Sedan" class="sr-only" /><span>Sedan</span></label>
-                      <label class="chip"><input type="checkbox" value="Coupe" class="sr-only" /><span>Coupe</span></label>
-                      <label class="chip"><input type="checkbox" value="Truck" class="sr-only" /><span>Truck</span></label>
-                    </div>
-                  </div>
-                  <!-- Drivetrain -->
-                  <div>
-                    <div class="t-label mb-2.5">Drivetrain</div>
-                    <div class="flex flex-wrap gap-2" data-filter-group="drivetrain">
-                      <label class="chip"><input type="checkbox" value="AWD" class="sr-only" /><span>AWD</span></label>
-                      <label class="chip"><input type="checkbox" value="4WD" class="sr-only" /><span>4WD</span></label>
-                      <label class="chip"><input type="checkbox" value="FWD" class="sr-only" /><span>FWD</span></label>
-                      <label class="chip"><input type="checkbox" value="RWD" class="sr-only" /><span>RWD</span></label>
-                    </div>
-                  </div>
-                  <!-- Condition -->
-                  <div>
-                    <div class="t-label mb-2.5">Condition</div>
-                    <label class="flex items-center gap-2.5 cursor-pointer">
-                      <input type="checkbox" id="f-certified" class="w-4 h-4 accent-blue" />
-                      <span class="t-body-sm text-body">Certified Pre-Owned only</span>
-                    </label>
-                  </div>
-                </div>
-              </details>
-            </div>
-
-            <!-- mobile apply bar -->
-            <div class="lg:hidden sticky bottom-0 bg-surface border-t border-border p-4">
-              <button type="button" data-filters-close class="btn btn--primary btn--block">Show <span data-result-count-inline>0</span> results</button>
+            <div class="range mt-3" data-range="year" data-min="2018" data-max="2023" data-step="1" data-format="year">
+              <div class="range__track"></div>
+              <div class="range__fill"></div>
+              <input type="range" class="range__min" min="2018" max="2023" step="1" value="2018" aria-label="Minimum year" />
+              <input type="range" class="range__max" min="2018" max="2023" step="1" value="2023" aria-label="Maximum year" />
             </div>
           </div>
-        </aside>
-
-        <!-- ---- RESULTS ---- -->
-        <div>
-          <!-- toolbar -->
-          <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-            <div class="flex items-center gap-3">
-              <button type="button" data-filters-open class="btn btn--outline btn--sm lg:hidden">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
-                Filters
-              </button>
-              <p class="t-body-sm text-muted"><span data-result-count class="t-h4 text-ink">0</span> vehicles</p>
+          <!-- Make -->
+          <div class="field flex-1 min-w-[120px]"><label class="t-label" for="f-make">Make</label><select id="f-make" class="ctrl"><option value="">Any make</option></select></div>
+          <!-- Model -->
+          <div class="field flex-1 min-w-[120px]"><label class="t-label" for="f-model">Model</label><select id="f-model" class="ctrl" disabled><option value="">Any model</option></select></div>
+          <!-- Trim -->
+          <div class="field flex-1 min-w-[120px]"><label class="t-label" for="f-trim">Trim</label><select id="f-trim" class="ctrl" disabled><option value="">Any trim</option></select></div>
+          <!-- Price (slider) -->
+          <div class="field flex-1 min-w-[170px]">
+            <div class="flex items-center justify-between">
+              <label class="t-label">Price</label>
+              <span class="t-caption text-muted font-mono"><span data-range-min-label="price">$0</span>–<span data-range-max-label="price">$100k+</span></span>
             </div>
-            <div class="flex items-center gap-2">
-              <label class="t-caption text-faint hidden sm:block" for="f-sort">Sort</label>
-              <select id="f-sort" class="ctrl !h-9 !w-auto t-body-sm">
-                <option value="relevance">Relevance</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="year-desc">Year: Newest</option>
-                <option value="miles-asc">Mileage: Lowest</option>
-              </select>
+            <div class="range mt-3" data-range="price" data-min="0" data-max="100000" data-step="1000" data-format="money">
+              <div class="range__track"></div>
+              <div class="range__fill"></div>
+              <input type="range" class="range__min" min="0" max="100000" step="1000" value="0" aria-label="Minimum price" />
+              <input type="range" class="range__max" min="0" max="100000" step="1000" value="100000" aria-label="Maximum price" />
             </div>
           </div>
+          <!-- All filters -->
+          <button type="button" data-advanced-toggle aria-expanded="false" aria-controls="advanced-filters" class="btn btn--outline shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+            All filters<span data-advanced-count class="badge badge--blue ml-0.5 empty:hidden"></span>
+            <svg class="w-3.5 h-3.5 text-faint transition-transform" data-advanced-caret viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
 
-          <!-- active filter chips -->
-          <div data-active-chips class="flex flex-wrap gap-2 mb-5 empty:hidden"></div>
-
-          <!-- results grid -->
-          <div data-results class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3"></div>
-
-          <!-- empty state -->
-          <div data-empty class="hidden text-center py-20">
-            <svg class="w-12 h-12 mx-auto text-faint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <h3 class="t-h3 mt-4">No vehicles match your filters</h3>
-            <p class="t-body-sm text-muted mt-2">Try widening your price or mileage range, or clearing a filter.</p>
-            <button type="button" data-clear-filters class="btn btn--secondary mt-6">Clear all filters</button>
+        <!-- advanced panel (collapsible) -->
+        <div id="advanced-filters" data-advanced hidden class="border-t border-border p-5">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <!-- Mileage -->
+            <div class="field">
+              <div class="flex items-center justify-between">
+                <label class="t-label">Mileage</label>
+                <span class="t-caption text-muted font-mono"><span data-range-min-label="miles">0</span> – <span data-range-max-label="miles">60k+</span> mi</span>
+              </div>
+              <div class="range mt-1.5" data-range="miles" data-min="0" data-max="60000" data-step="1000" data-format="miles">
+                <div class="range__track"></div>
+                <div class="range__fill"></div>
+                <input type="range" class="range__min" min="0" max="60000" step="1000" value="0" aria-label="Minimum mileage" />
+                <input type="range" class="range__max" min="0" max="60000" step="1000" value="60000" aria-label="Maximum mileage" />
+              </div>
+            </div>
+            <!-- Body style -->
+            <div>
+              <div class="t-label mb-2.5">Body style</div>
+              <div class="flex flex-wrap gap-2" data-filter-group="body">
+                <label class="chip"><input type="checkbox" value="SUV" class="sr-only" /><span>SUV</span></label>
+                <label class="chip"><input type="checkbox" value="Sedan" class="sr-only" /><span>Sedan</span></label>
+                <label class="chip"><input type="checkbox" value="Coupe" class="sr-only" /><span>Coupe</span></label>
+                <label class="chip"><input type="checkbox" value="Truck" class="sr-only" /><span>Truck</span></label>
+              </div>
+            </div>
+            <!-- Drivetrain -->
+            <div>
+              <div class="t-label mb-2.5">Drivetrain</div>
+              <div class="flex flex-wrap gap-2" data-filter-group="drivetrain">
+                <label class="chip"><input type="checkbox" value="AWD" class="sr-only" /><span>AWD</span></label>
+                <label class="chip"><input type="checkbox" value="4WD" class="sr-only" /><span>4WD</span></label>
+                <label class="chip"><input type="checkbox" value="FWD" class="sr-only" /><span>FWD</span></label>
+                <label class="chip"><input type="checkbox" value="RWD" class="sr-only" /><span>RWD</span></label>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-4 mt-6 pt-5 border-t border-border">
+            <label class="flex items-center gap-2.5 cursor-pointer">
+              <input type="checkbox" id="f-certified" class="w-4 h-4 accent-blue" />
+              <span class="t-body-sm text-body">Certified Pre-Owned only</span>
+            </label>
+            <button type="button" data-clear-filters class="btn btn--link t-body-sm">Clear all</button>
           </div>
         </div>
+      </div>
+
+      <!-- ---- RESULTS ---- -->
+      <!-- toolbar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mt-6 mb-5">
+        <p class="t-body-sm text-muted"><span data-result-count class="t-h4 text-ink">0</span> vehicles</p>
+        <div class="flex items-center gap-2">
+          <label class="t-caption text-faint hidden sm:block" for="f-sort">Sort</label>
+          <select id="f-sort" class="ctrl !h-9 !w-auto t-body-sm">
+            <option value="relevance">Relevance</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="year-desc">Year: Newest</option>
+            <option value="miles-asc">Mileage: Lowest</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- active filter chips -->
+      <div data-active-chips class="flex flex-wrap gap-2 mb-5 empty:hidden"></div>
+
+      <!-- results grid (full width, larger tiles) -->
+      <div data-results class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+      <!-- empty state -->
+      <div data-empty class="hidden text-center py-20">
+        <svg class="w-12 h-12 mx-auto text-faint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <h3 class="t-h3 mt-4">No vehicles match your filters</h3>
+        <p class="t-body-sm text-muted mt-2">Try widening your price or mileage range, or clearing a filter.</p>
+        <button type="button" data-clear-filters class="btn btn--secondary mt-6">Clear all filters</button>
       </div>
     </section>
   </main>

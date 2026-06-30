@@ -35,22 +35,14 @@
   var countInline = $$('[data-result-count-inline]');
   var f = {
     kw:      $('#f-kw'),
-    yearMin: $('#f-year-min'),
-    yearMax: $('#f-year-max'),
     make:    $('#f-make'),
     model:   $('#f-model'),
+    trim:    $('#f-trim'),
     certified: $('#f-certified'),
     sort:    $('#f-sort')
   };
 
-  /* ---- Populate year + make selects ---- */
-  var years = INVENTORY.map(function (v) { return v.year; });
-  var minY = Math.min.apply(null, years), maxY = Math.max.apply(null, years);
-  for (var y = maxY; y >= minY; y--) {
-    f.yearMin.insertAdjacentHTML('beforeend', '<option value="' + y + '">' + y + '</option>');
-    f.yearMax.insertAdjacentHTML('beforeend', '<option value="' + y + '">' + y + '</option>');
-  }
-
+  /* ---- Populate make select ---- */
   var makes = INVENTORY.map(function (v) { return v.make; })
     .filter(function (m, i, a) { return a.indexOf(m) === i; }).sort();
   makes.forEach(function (m) {
@@ -69,6 +61,21 @@
       f.model.insertAdjacentHTML('beforeend', '<option value="' + m + '">' + m + '</option>');
     });
     f.model.disabled = false;
+  }
+
+  /* ---- Make + Model → Trim dependency ---- */
+  function refreshTrims() {
+    f.trim.innerHTML = '<option value="">Any trim</option>';
+    var make = f.make.value, model = f.model.value;
+    var trims = (make && model) ? INVENTORY
+      .filter(function (v) { return v.make === make && v.model === model && v.trim; })
+      .map(function (v) { return v.trim; })
+      .filter(function (t, i, a) { return a.indexOf(t) === i; }).sort() : [];
+    if (!trims.length) { f.trim.disabled = true; return; }
+    trims.forEach(function (t) {
+      f.trim.insertAdjacentHTML('beforeend', '<option value="' + t + '">' + t + '</option>');
+    });
+    f.trim.disabled = false;
   }
 
   /* ---- Dual-range sliders ---- */
@@ -115,10 +122,10 @@
   function getState() {
     return {
       kw: (f.kw.value || '').trim().toLowerCase(),
-      yearMin: f.yearMin.value ? +f.yearMin.value : null,
-      yearMax: f.yearMax.value ? +f.yearMax.value : null,
+      yearLo: ranges.year.lo, yearHi: ranges.year.hi,
       make: f.make.value,
       model: f.model.value,
+      trim: f.trim.value,
       priceLo: ranges.price.lo, priceHi: ranges.price.hi,
       milesLo: ranges.miles.lo, milesHi: ranges.miles.hi,
       body: readGroup('body'),
@@ -133,10 +140,10 @@
       var hay = (v.year + ' ' + v.make + ' ' + v.model + ' ' + v.trim + ' ' + v.body + ' ' + v.drivetrain + ' ' + v.engine).toLowerCase();
       if (hay.indexOf(s.kw) === -1) return false;
     }
-    if (s.yearMin && v.year < s.yearMin) return false;
-    if (s.yearMax && v.year > s.yearMax) return false;
+    if (v.year < s.yearLo || v.year > s.yearHi) return false;
     if (s.make && v.make !== s.make) return false;
     if (s.model && v.model !== s.model) return false;
+    if (s.trim && v.trim !== s.trim) return false;
     if (v.price < s.priceLo || (s.priceHi < ranges.price.max && v.price > s.priceHi)) return false;
     if (v.miles < s.milesLo || (s.milesHi < ranges.miles.max && v.miles > s.milesHi)) return false;
     if (s.body.length && s.body.indexOf(v.body) === -1) return false;
@@ -165,11 +172,10 @@
         '<span class="badge badge--neutral absolute top-3 right-3 font-mono">' + v.miles.toLocaleString('en-US') + ' mi</span>' +
       '</div>' +
       '<div class="card__body flex flex-col flex-1">' +
-        '<div class="flex items-center justify-between gap-2"><div class="t-eyebrow text-blue">' + v.make + '</div><div class="t-caption text-faint font-mono">' + v.year + '</div></div>' +
-        '<h3 class="t-h4 mt-1.5 group-hover:text-blue transition-colors">' + name + '</h3>' +
+        '<h3 class="t-h4 group-hover:text-blue transition-colors">' + v.year + ' ' + v.make + ' ' + name + '</h3>' +
         '<div class="flex flex-wrap gap-x-3 gap-y-1 mt-3 t-caption text-muted"><span>' + v.trans + '</span><span>·</span><span>' + v.drivetrain + '</span><span>·</span><span>' + v.engine + '</span></div>' +
-        '<div class="flex items-end justify-between gap-3 mt-5 pt-5 border-t border-border">' +
-          '<div><div class="t-price">' + money(v.price) + '</div><div class="t-caption text-muted mt-1">Est. <span class="font-mono text-body">$' + v.payment + '</span>/mo</div></div>' +
+        '<div class="flex items-end justify-between gap-3 mt-auto pt-5 border-t border-border">' +
+          '<div><div class="t-price">' + money(v.price) + '</div></div>' +
           '<span class="t-button text-blue inline-flex items-center gap-1">View<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>' +
         '</div>' +
         '<div class="flex items-center gap-2 mt-3">' +
@@ -199,14 +205,24 @@
   function renderChips(s) {
     chipsEl.innerHTML = '';
     if (s.kw) chipsEl.appendChild(chip('“' + f.kw.value.trim() + '”', function () { f.kw.value = ''; apply(); }));
-    if (s.yearMin || s.yearMax) chipsEl.appendChild(chip((s.yearMin || minY) + '–' + (s.yearMax || maxY), function () { f.yearMin.value = ''; f.yearMax.value = ''; apply(); }));
-    if (s.make) chipsEl.appendChild(chip(s.make, function () { f.make.value = ''; refreshModels(); apply(); }));
-    if (s.model) chipsEl.appendChild(chip(s.model, function () { f.model.value = ''; apply(); }));
+    if (s.yearLo > ranges.year.min || s.yearHi < ranges.year.max) chipsEl.appendChild(chip(s.yearLo + '–' + s.yearHi, function () { $('[data-range="year"]')._reset(); apply(); }));
+    if (s.make) chipsEl.appendChild(chip(s.make, function () { f.make.value = ''; refreshModels(); refreshTrims(); apply(); }));
+    if (s.model) chipsEl.appendChild(chip(s.model, function () { f.model.value = ''; refreshTrims(); apply(); }));
+    if (s.trim) chipsEl.appendChild(chip(s.trim, function () { f.trim.value = ''; apply(); }));
     if (s.priceLo > ranges.price.min || s.priceHi < ranges.price.max) chipsEl.appendChild(chip(moneyShort(s.priceLo) + '–' + moneyShort(s.priceHi), function () { $('[data-range="price"]')._reset(); apply(); }));
     if (s.milesLo > ranges.miles.min || s.milesHi < ranges.miles.max) chipsEl.appendChild(chip('≤ ' + milesShort(s.milesHi) + ' mi', function () { $('[data-range="miles"]')._reset(); apply(); }));
     s.body.forEach(function (val) { chipsEl.appendChild(chip(val, function () { uncheck('body', val); apply(); })); });
     s.drivetrain.forEach(function (val) { chipsEl.appendChild(chip(val, function () { uncheck('drivetrain', val); apply(); })); });
     if (s.certified) chipsEl.appendChild(chip('Certified', function () { f.certified.checked = false; apply(); }));
+    // visible "Clear all" whenever any filter is active
+    if (chipsEl.children.length) {
+      var clr = document.createElement('button');
+      clr.type = 'button';
+      clr.className = 'btn btn--link t-body-sm ml-1';
+      clr.textContent = 'Clear all';
+      clr.addEventListener('click', clearAll);
+      chipsEl.appendChild(clr);
+    }
   }
   function uncheck(group, val) {
     var input = $('[data-filter-group="' + group + '"] input[value="' + val + '"]');
@@ -222,12 +238,20 @@
     countEls.forEach(function (el) { el.textContent = list.length; });
     countInline.forEach(function (el) { el.textContent = list.length; });
     renderChips(s);
+
+    // badge: number of active *advanced* filters (those inside the All-filters panel)
+    var advBadge = $('[data-advanced-count]');
+    if (advBadge) {
+      var adv = s.body.length + s.drivetrain.length + (s.certified ? 1 : 0) +
+        ((s.milesLo > ranges.miles.min || s.milesHi < ranges.miles.max) ? 1 : 0);
+      advBadge.textContent = adv ? String(adv) : '';
+    }
   }
 
   /* ---- Clear all ---- */
   function clearAll() {
-    f.kw.value = ''; f.yearMin.value = ''; f.yearMax.value = '';
-    f.make.value = ''; refreshModels(); f.model.value = '';
+    f.kw.value = '';
+    f.make.value = ''; refreshModels(); refreshTrims();
     f.certified.checked = false;
     $$('[data-filter-group] input:checked').forEach(function (i) { i.checked = false; });
     $$('[data-range]').forEach(function (el) { el._reset(); });
@@ -236,18 +260,22 @@
 
   /* ---- Wire up events ---- */
   f.kw.addEventListener('input', apply);
-  f.make.addEventListener('change', function () { refreshModels(); apply(); });
-  [f.yearMin, f.yearMax, f.model, f.certified, f.sort].forEach(function (el) { el.addEventListener('change', apply); });
+  f.make.addEventListener('change', function () { refreshModels(); refreshTrims(); apply(); });
+  f.model.addEventListener('change', function () { refreshTrims(); apply(); });
+  [f.trim, f.certified, f.sort].forEach(function (el) { el.addEventListener('change', apply); });
   $$('[data-filter-group] input').forEach(function (i) { i.addEventListener('change', apply); });
   $$('[data-clear-filters]').forEach(function (b) { b.addEventListener('click', clearAll); });
 
-  /* ---- Mobile filters drawer ---- */
-  var drawer = $('#filters');
-  function openDrawer()  { drawer.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
-  function closeDrawer() { drawer.classList.remove('is-open'); document.body.style.overflow = ''; }
-  $$('[data-filters-open]').forEach(function (b) { b.addEventListener('click', openDrawer); });
-  $$('[data-filters-close]').forEach(function (b) { b.addEventListener('click', closeDrawer); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer(); });
+  /* ---- "All filters" advanced panel toggle ---- */
+  var advToggle = $('[data-advanced-toggle]');
+  var advPanel  = $('[data-advanced]');
+  if (advToggle && advPanel) {
+    advToggle.addEventListener('click', function () {
+      var open = advPanel.hidden;
+      advPanel.hidden = !open;
+      advToggle.setAttribute('aria-expanded', String(open));
+    });
+  }
 
   /* ---- Initial render ---- */
   apply();
